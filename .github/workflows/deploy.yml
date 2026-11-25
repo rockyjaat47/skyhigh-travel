@@ -34,12 +34,14 @@ jobs:
       VITE_GTM_ID: ${{ vars.VITE_GTM_ID }}
       VITE_META_PIXEL_ID: ${{ vars.VITE_META_PIXEL_ID }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      # npm ci fails here: lockfiles generated on macOS omit Linux-only optional
+      # native bindings (npm/cli#4828). npm install resolves them for the runner.
+      - run: npm install --no-audit --no-fund
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
