@@ -50,7 +50,7 @@ writeFileSync(resolve(dist, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /
 copyFileSync(resolve(dist, 'index.html'), resolve(dist, '404.html'))
 // Give every known route its own index.html so static hosts answer HTTP 200
 // (search engines may skip pages served through the 404 fallback).
-for (const [p] of routes) {
+for (const p of [...routes.map(([r]) => r), '/admin']) {
   if (p === '/') continue
   const dir = resolve(dist, p.slice(1))
   mkdirSync(dir, { recursive: true })
