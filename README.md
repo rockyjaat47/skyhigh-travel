@@ -126,8 +126,8 @@ Tracked events: `cta_click`, `service_select`, `enquiry_start`, `enquiry_submit_
    variables for contact/analytics and `VITE_SITE_URL` if you use a custom domain.
 4. `.github/workflows/deploy.yml` type-checks, lints, tests, builds and deploys on every push to `main`.
 
-Direct deep links work: the build copies `index.html` to `404.html`, so GitHub Pages serves the app for any route and
-React Router renders the right page. For a custom domain, set `VITE_BASE=/` and `VITE_SITE_URL`, and add a `CNAME`
+Direct deep links work: the build writes an `index.html` into every known route's folder (so each page answers
+HTTP 200 for search engines) and copies it to `404.html` as the fallback for anything else. For a custom domain, set `VITE_BASE=/` and `VITE_SITE_URL`, and add a `CNAME`
 file to `public/`.
 
 ## Project structure

@@ -1,10 +1,11 @@
 /**
  * Runs after `vite build`:
- *  1. dist/404.html   — copy of index.html so GitHub Pages serves the SPA for deep links
+ *  1. dist/<route>/index.html for every known route (HTTP 200), and dist/404.html as the
+ *     SPA fallback for anything else
  *  2. dist/sitemap.xml — every public route, generated from the content data
  *  3. dist/robots.txt — points crawlers at the sitemap, keeps /admin out
  */
-import { copyFileSync, existsSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { destinations } from '../src/data/destinations.ts'
 import { packages } from '../src/data/packages.ts'
@@ -47,6 +48,14 @@ ${routes.map(([p, pr]) => `  <url><loc>${site}${p === '/' ? '/' : p}</loc><lastm
 writeFileSync(resolve(dist, 'sitemap.xml'), xml)
 writeFileSync(resolve(dist, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${site}/sitemap.xml\n`)
 copyFileSync(resolve(dist, 'index.html'), resolve(dist, '404.html'))
+// Give every known route its own index.html so static hosts answer HTTP 200
+// (search engines may skip pages served through the 404 fallback).
+for (const [p] of routes) {
+  if (p === '/') continue
+  const dir = resolve(dist, p.slice(1))
+  mkdirSync(dir, { recursive: true })
+  copyFileSync(resolve(dist, 'index.html'), resolve(dir, 'index.html'))
+}
 // GitHub Pages: don't run Jekyll over the build output
 writeFileSync(resolve(dist, '.nojekyll'), '')
 
