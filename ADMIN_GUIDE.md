@@ -1,6 +1,6 @@
 # Skyhigh Admin — Website kaise manage karein
 
-Admin panel kholo: **https://rockyjaat47.github.io/skyhigh-travel/admin**
+Admin panel kholo: **https://skyhighbird.com/admin**
 
 Login ke liye apna email daalo → **"Email me a sign-in link"** → email mein aaya link kholo. Password ki zarurat nahi.
 Jo bhi aap **Save** karoge, woh website par turant live ho jaata hai.

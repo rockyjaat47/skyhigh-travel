@@ -20,8 +20,8 @@ The admin panel stores everything (text, photos, destinations, packages, service
 
 Supabase dashboard → **Authentication → URL Configuration**:
 
-- **Site URL**: `https://rockyjaat47.github.io/skyhigh-travel/`
-- **Redirect URLs** → add `https://rockyjaat47.github.io/skyhigh-travel/admin/` (with the trailing slash) and, for local
+- **Site URL**: `https://skyhighbird.com/`
+- **Redirect URLs** → add `https://skyhighbird.com/admin/` (with the trailing slash) and, for local
   work, `http://localhost:5173/admin/`
 
 Keep **Authentication → Providers → Email → "Allow new users to sign up"** switched **on** — invites for new staff
@@ -53,7 +53,7 @@ Redeploy: GitHub → **Actions → Build & deploy to GitHub Pages → Run workfl
 
 ## 5. First sign-in
 
-1. Open `https://rockyjaat47.github.io/skyhigh-travel/admin`.
+1. Open `https://skyhighbird.com/admin`.
 2. Enter the owner email from step 2 → **Email me a sign-in link** → open the link from your inbox.
 3. You're in as **Owner**. Go to **Destinations**, **Packages** and **Services** and click **Import starter content**
    once on each, so the existing content becomes editable.

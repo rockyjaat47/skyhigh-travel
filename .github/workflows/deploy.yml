@@ -19,8 +19,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Project site lives at https://<owner>.github.io/<repo>/
-      VITE_BASE: /${{ github.event.repository.name }}/
+      # Custom domain → "/" (set repo variable VITE_BASE). Without one the
+      # project site lives at https://<owner>.github.io/<repo>/
+      VITE_BASE: ${{ vars.VITE_BASE || format('/{0}/', github.event.repository.name) }}
       VITE_SITE_URL: ${{ vars.VITE_SITE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
       # Publishable values only — configure under Settings → Secrets and variables → Actions
       VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
