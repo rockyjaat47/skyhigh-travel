@@ -1,0 +1,145 @@
+{
+  "_note": "Photos from Unsplash (https://unsplash.com/license) — free for commercial use, no attribution required. Source: https://images.unsplash.com/<id>",
+  "photos": {
+    "ladakh": {
+      "id": "photo-1593118845043-359e5f628214",
+      "alt": "Prayer flags beside a turquoise lake beneath barren mountains in Ladakh"
+    },
+    "ladakh-2": {
+      "id": "photo-1619837374214-f5b9eb80876d",
+      "alt": "The Indus and Zanskar rivers meeting at the Sangam confluence in Ladakh"
+    },
+    "goa": {
+      "id": "photo-1614082242765-7c98ca0f3df3",
+      "alt": "Colourful beach huts and palm trees on a sandy Goa shore"
+    },
+    "goa-2": {
+      "id": "photo-1512343879784-a960bf40e7f2",
+      "alt": "Blue sea and beach under a sunny sky"
+    },
+    "kerala": {
+      "id": "photo-1593693411515-c20261bcad6e",
+      "alt": "Traditional houseboat on the palm-lined backwaters of Alappuzha"
+    },
+    "kerala-2": {
+      "id": "photo-1602216056096-3b40cc0c9944",
+      "alt": "Wooden boat on calm water surrounded by green palms"
+    },
+    "jaipur": {
+      "id": "photo-1599661046827-dacff0c0f09a",
+      "alt": "Birds flying over the lake palace in Jaipur"
+    },
+    "jaipur-2": {
+      "id": "photo-1524309784716-6a4be8299c7f",
+      "alt": "Historic Rajasthani architecture under a clear sky"
+    },
+    "varanasi": {
+      "id": "photo-1561359313-0639aad49ca6",
+      "alt": "Boats on the Ganges before the stone ghats and temples of Varanasi"
+    },
+    "varanasi-2": {
+      "id": "photo-1627894483216-2138af692e32",
+      "alt": "Priests performing the evening aarti with lamps in Varanasi"
+    },
+    "rishikesh": {
+      "id": "photo-1720819029162-8500607ae232",
+      "alt": "Suspension bridge over the Ganga in Rishikesh"
+    },
+    "rishikesh-2": {
+      "id": "photo-1718383537411-6f9e727ae0bb",
+      "alt": "Group river rafting through the Ganga"
+    },
+    "dubai": {
+      "id": "photo-1512453979798-5ea266f8880c",
+      "alt": "The Burj Khalifa and Dubai skyline above a highway interchange"
+    },
+    "dubai-2": {
+      "id": "photo-1518684079-3c830dcef090",
+      "alt": "Burj Al Arab on the Dubai coastline"
+    },
+    "bali": {
+      "id": "photo-1555400038-63f5ba517a47",
+      "alt": "Green rice terraces with palm trees in Tegallalang, Bali"
+    },
+    "bali-2": {
+      "id": "photo-1577717903315-1691ae25ab3f",
+      "alt": "Turquoise water below limestone cliffs on Nusa Penida"
+    },
+    "swiss-alps": {
+      "id": "photo-1527668752968-14dc70a27c95",
+      "alt": "Alpine village beneath snow-covered Swiss mountains"
+    },
+    "swiss-alps-2": {
+      "id": "photo-1612215864092-355d4b25083f",
+      "alt": "Lakeside houses beneath an alpine mountain range"
+    },
+    "singapore": {
+      "id": "photo-1525625293386-3f8f99389edd",
+      "alt": "Marina Bay Sands and the Singapore skyline"
+    },
+    "singapore-2": {
+      "id": "photo-1628221680019-f28a2716e727",
+      "alt": "Marina Bay Sands and the Singapore Flyer at night"
+    },
+    "svc-tour": {
+      "id": "photo-1559054109-82d938dac629",
+      "alt": "Travellers sitting on rocks overlooking a mountain valley"
+    },
+    "svc-transport": {
+      "id": "photo-1786545638116-1e78f52d1783",
+      "alt": "A coach and a car on a road through green fields"
+    },
+    "svc-logistics": {
+      "id": "photo-1618582948377-cd7eb0e8cb14",
+      "alt": "Freight truck on a rural highway through green fields"
+    },
+    "svc-booking": {
+      "id": "photo-1605590427165-3884d6aa6731",
+      "alt": "Aircraft wing above a sea of white clouds"
+    },
+    "svc-corporate": {
+      "id": "photo-1532968899863-5b52ef155913",
+      "alt": "Travellers walking through a sunlit airport terminal"
+    },
+    "svc-custom": {
+      "id": "photo-1759661323897-f48700499b33",
+      "alt": "Cliffside resort pool overlooking the ocean"
+    },
+    "pkg-ladakh-road": {
+      "id": "photo-1617824077360-7a77db40aae1",
+      "alt": "Mountain road winding through the Ladakh range"
+    },
+    "pkg-goa": {
+      "id": "photo-1582972236019-ea4af5ffe587",
+      "alt": "Sandy beach lined with palm trees"
+    },
+    "pkg-munnar": {
+      "id": "photo-1696027356970-b1527cc0d33c",
+      "alt": "Tea plantations across the hills of Munnar"
+    },
+    "pkg-offsite": {
+      "id": "photo-1603317581682-c3c3e3a3a588",
+      "alt": "Hikers with backpacks on a rocky mountain trail"
+    },
+    "hero-plane": {
+      "id": "photo-1499063078284-f78f7d89616a",
+      "alt": "White aircraft flying above grey clouds"
+    },
+    "move-trucks": {
+      "id": "photo-1766785368863-f2188a8c8b32",
+      "alt": "Two freight trucks on a highway"
+    },
+    "warehouse": {
+      "id": "photo-1553413077-190dd305871c",
+      "alt": "Large logistics warehouse interior"
+    },
+    "road-trip": {
+      "id": "photo-1649513242423-67a33a33870c",
+      "alt": "Sunlit rural road through open countryside"
+    },
+    "mountains-night": {
+      "id": "photo-1600438831035-48f5f196d3bf",
+      "alt": "Mountains beside a lake under a blue sky"
+    }
+  }
+}

@@ -12,7 +12,7 @@ export function DestinationCard({ d, className, size = 'md' }: { d: Destination;
       className={cn('group relative block overflow-hidden rounded-[1.75rem] bg-navy text-white', size === 'lg' ? 'aspect-[3/4]' : 'aspect-[4/5]', className)}
     >
       <div className="absolute inset-0 transition-transform duration-[1.4s] ease-[var(--ease-expo)] group-hover:scale-[1.06]">
-        <Artwork art={d.art} seed={d.slug} />
+        <Artwork art={d.art} seed={d.slug} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 80vw" />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-midnight/85 via-midnight/10 to-transparent" />
       <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5">
@@ -37,7 +37,7 @@ export function PackageCard({ p, destinationNames }: { p: TravelPackage; destina
     <Link to={`/packages/${p.slug}`} className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white transition-shadow duration-500 hover:shadow-[0_30px_60px_-30px_rgba(7,29,54,0.35)]">
       <div className="relative aspect-[16/11] overflow-hidden">
         <div className="absolute inset-0 transition-transform duration-[1.4s] ease-[var(--ease-expo)] group-hover:scale-[1.06]">
-          <Artwork art={p.art} seed={p.slug} />
+          <Artwork art={p.art} seed={p.slug} sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw" />
         </div>
         <div className="absolute left-4 top-4 flex gap-2">
           <StatusTag tone="light">{p.theme}</StatusTag>

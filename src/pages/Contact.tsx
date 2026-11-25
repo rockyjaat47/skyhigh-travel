@@ -14,16 +14,8 @@ import { whatsappLink } from '../services/enquiry'
 import type { EnquiryService } from '../types/content'
 import { cn } from '../utils/cn'
 
-const faqs = [
-  { q: 'Is there any charge for an enquiry?', a: 'No. Enquiries are free and carry no obligation. We never ask for payment details through this website.' },
-  { q: 'How soon will I hear back?', a: 'We aim to respond within one business day during working hours. Complex itineraries or freight requests may need a little longer to price accurately.' },
-  { q: 'Are the services already operational?', a: 'Skyhigh is a newly incorporated company. Services are marked as “proposed” until they are confirmed and live — we’ll always tell you clearly what we can deliver today.' },
-  { q: 'Can you plan trips that aren’t listed?', a: 'Absolutely. Destinations and packages on this site are illustrative. Tell us where you want to go and we will build the plan around you.' },
-  { q: 'What information should I avoid sharing?', a: 'Please don’t send passport numbers, card details or other sensitive identifiers through the form. If documents are needed, we’ll arrange a secure method.' },
-]
-
 export default function Contact() {
-  const { contact } = useContent()
+  const { contact, faqs, pages } = useContent()
   const [params] = useSearchParams()
   const raw = params.get('service') as EnquiryService | null
   const service = raw && enquiryServices.some((s) => s.id === raw) ? raw : undefined
@@ -43,7 +35,7 @@ export default function Contact() {
         <div aria-hidden="true" className="dot-grid pointer-events-none absolute inset-0 text-navy opacity-40 [mask-image:radial-gradient(70%_60%_at_80%_20%,#000,transparent)]" />
         <div className="container-x relative">
           <Breadcrumbs items={[{ name: 'Contact' }]} />
-          <SplitHeading as="h1" immediate lines={['Let’s plan', 'what’s next.']} className="mt-8 text-display-xl text-navy" />
+          <SplitHeading as="h1" immediate lines={pages.contact.title} className="mt-8 text-display-xl text-navy" />
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {channels.map((c) => (
               <a key={c.label} href={c.href} onClick={c.ev} target={c.external ? '_blank' : undefined} rel={c.external ? 'noopener noreferrer' : undefined} className="group rounded-[1.4rem] border border-line bg-white p-6 transition-colors hover:border-navy">
@@ -76,7 +68,7 @@ export default function Contact() {
       <section id="plan" className="scroll-mt-24 bg-cloud pb-28">
         <div className="container-x">
           <div className="rounded-[2rem] border border-line bg-white p-6 shadow-[0_40px_80px_-50px_rgba(7,29,54,0.35)] sm:p-12">
-            <SectionLabel index="05">Arrive — Plan your journey</SectionLabel>
+            <SectionLabel index="05">{pages.contact.formTitle}</SectionLabel>
             <div className="mt-8">
               <EnquiryForm defaultService={service} />
             </div>

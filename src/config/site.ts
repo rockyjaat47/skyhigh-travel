@@ -1,21 +1,13 @@
 import type { ContactSettings, SeoSettings } from '../types/content'
 import { env } from './env'
 
+/** Legal identity — fixed company facts (not marketing copy; that lives in data/siteCopy.ts). */
 export const company = {
   legalName: 'Skyhigh Travel Bird Technology Private Limited',
   brand: 'Skyhigh',
   cin: 'U79110UP2026PTC241002',
   industry: 'Travel, Tourism, Transportation, Logistics and Technology',
   tagline: 'Your Journey, Our Responsibility – Taking You Higher!',
-  about: [
-    'Skyhigh Travel Bird Technology Private Limited is a modern, customer-focused company committed to providing reliable, convenient and innovative travel, transportation and tourism solutions.',
-    'The company aims to make every journey comfortable, safe, affordable and memorable by combining technology, professional services and customer satisfaction.',
-    'Skyhigh believes that travel is more than reaching a destination; it is about creating experiences, building connections and making every journey worthwhile.',
-  ],
-  mission:
-    'To deliver dependable, affordable and technology-enabled travel and transportation solutions while maintaining high standards of customer service, safety and professionalism.',
-  vision:
-    'To become a trusted and recognized name in the travel and tourism industry by connecting people, places and opportunities through innovation and excellent service.',
 } as const
 
 /** Defaults come from env vars; the admin panel can override them at runtime (site_settings.contact). */

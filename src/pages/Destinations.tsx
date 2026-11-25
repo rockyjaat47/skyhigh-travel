@@ -11,7 +11,8 @@ import { useContent } from '../hooks/useContent'
 import { cn } from '../utils/cn'
 
 export default function Destinations() {
-  const { destinations, loading } = useContent()
+  const { destinations, loading, pages } = useContent()
+  const pg = pages.destinations
   const [params, setParams] = useSearchParams()
   const q = params.get('q') ?? ''
   const cat = params.get('category') ?? 'all'
@@ -47,12 +48,12 @@ export default function Destinations() {
         ]}
       />
       <PageHero
-        art={{ scene: 'beach', tone: 'golden', alt: 'Illustration of a coastline at golden hour' }}
+        art={{ scene: 'beach', tone: 'golden', image: pg.image, alt: 'Illustration of a coastline at golden hour' }}
         seed="dest-hero"
         crumbs={[{ name: 'Destinations' }]}
-        title={['Where will', 'you go next?']}
-        intro={<p>From Himalayan passes to tropical coastlines — a showcase of places we love to plan journeys around.</p>}
-        aside={<p className="label-mono leading-relaxed text-white/70">Illustrative destinations. Itineraries, availability and pricing are tailored on request.</p>}
+        title={pg.title}
+        intro={<p>{pg.intro}</p>}
+        aside={pg.note ? <p className="label-mono leading-relaxed text-white/70">{pg.note}</p> : undefined}
       />
 
       <section className="bg-cloud py-16 sm:py-24">

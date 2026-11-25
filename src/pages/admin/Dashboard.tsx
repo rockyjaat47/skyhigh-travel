@@ -48,6 +48,19 @@ export function Dashboard() {
         ))}
       </div>
 
+      <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {[
+          ['Edit home page text', '/admin/content/home'],
+          ['Add a destination', '/admin/destinations'],
+          ['Upload photos', '/admin/media'],
+          ['Update phone / WhatsApp', '/admin/settings/contact'],
+        ].map(([label, to]) => (
+          <Link key={to} to={to} className="flex items-center justify-between rounded-2xl border border-line bg-white px-5 py-4 text-sm font-semibold text-navy hover:border-navy">
+            {label} <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        ))}
+      </div>
+
       <div className="mt-6 grid gap-6 xl:grid-cols-5">
         <Panel className="p-6 xl:col-span-3">
           <div className="flex items-center justify-between">

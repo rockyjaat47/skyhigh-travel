@@ -1,6 +1,6 @@
 import { memo, useId, useMemo } from 'react'
 import type { Artwork as ArtworkT, ArtScene, ArtTone } from '../../types/content'
-import { asset, cn, hashString, rng } from '../../utils/cn'
+import { asset, cn, hashString, rng, safeImage, srcSetFor } from '../../utils/cn'
 
 /**
  * Procedural, art-directed landscape posters (SVG).
@@ -391,19 +391,25 @@ export interface ArtworkProps {
   priority?: boolean
   /** Vertical anchor when cropped by a wide container. */
   align?: 'top' | 'center' | 'bottom'
+  /** Responsive sizes hint for photos, e.g. "(min-width: 1024px) 33vw, 90vw". */
+  sizes?: string
 }
 
-export const Artwork = memo(function Artwork({ art, seed, className, decorative, priority, align = 'center' }: ArtworkProps) {
+export const Artwork = memo(function Artwork({ art, seed, className, decorative, priority, align = 'center', sizes = '100vw' }: ArtworkProps) {
   const uid = useId().replace(/:/g, '')
   const seedNum = useMemo(() => hashString(seed ?? art.alt), [seed, art.alt])
 
-  if (art.image) {
+  const image = safeImage(art.image)
+  if (image) {
     return (
       <img
-        src={asset(art.image)}
+        src={asset(image)}
+        srcSet={srcSetFor(image)}
+        sizes={sizes}
         alt={decorative ? '' : art.alt}
-        className={cn('h-full w-full object-cover', className)}
+        className={cn('h-full w-full object-cover', align === 'top' ? 'object-top' : align === 'bottom' ? 'object-bottom' : 'object-center', className)}
         loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : undefined}
         decoding="async"
       />
     )

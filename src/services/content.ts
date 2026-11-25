@@ -1,8 +1,9 @@
 import { defaultContact, defaultSeo } from '../config/site'
+import { defaultCompany, defaultFaqs, defaultHome, defaultLegal, defaultPages } from '../data/siteCopy'
 import { destinations as localDestinations } from '../data/destinations'
 import { packages as localPackages } from '../data/packages'
 import { services as localServices } from '../data/services'
-import type { ContactSettings, Destination, SeoSettings, Service, TravelPackage } from '../types/content'
+import type { CompanyCopy, ContactSettings, Destination, FaqItem, HomeCopy, LegalCopy, PagesCopy, SeoSettings, Service, TravelPackage } from '../types/content'
 import { getSupabase } from './supabase'
 
 export interface SiteContent {
@@ -11,15 +12,47 @@ export interface SiteContent {
   packages: TravelPackage[]
   contact: ContactSettings
   seo: SeoSettings
+  home: HomeCopy
+  company: CompanyCopy
+  pages: PagesCopy
+  faqs: FaqItem[]
+  legal: LegalCopy
   source: 'local' | 'remote'
+}
+
+/** Keys stored in the site_settings table (one JSON document each). */
+export const SETTINGS_KEYS = ['contact', 'seo', 'home', 'company', 'pages', 'faqs', 'legal'] as const
+export type SettingsKey = (typeof SETTINGS_KEYS)[number]
+
+export const settingsDefaults = {
+  contact: defaultContact,
+  seo: defaultSeo,
+  home: defaultHome,
+  company: defaultCompany,
+  pages: defaultPages,
+  faqs: defaultFaqs,
+  legal: defaultLegal,
+}
+
+const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v)
+
+/** Saved values override defaults key-by-key (one level deep for nested page objects). */
+export function mergeSetting<T>(def: T, saved: unknown): T {
+  if (Array.isArray(def)) return (Array.isArray(saved) && saved.length ? saved : def) as T
+  if (!isObj(def) || !isObj(saved)) return def
+  const out: Record<string, unknown> = { ...def }
+  for (const [k, v] of Object.entries(saved)) {
+    if (v === undefined || v === null) continue
+    out[k] = isObj(out[k]) && isObj(v) ? { ...(out[k] as object), ...v } : v
+  }
+  return out as T
 }
 
 export const localContent: SiteContent = {
   services: localServices,
   destinations: localDestinations.filter((d) => d.published),
   packages: localPackages.filter((p) => p.published),
-  contact: defaultContact,
-  seo: defaultSeo,
+  ...settingsDefaults,
   source: 'local',
 }
 
@@ -55,8 +88,13 @@ export async function loadRemoteContent(): Promise<SiteContent> {
     services,
     destinations,
     packages,
-    contact: { ...defaultContact, ...((settingsMap.get('contact') as Partial<ContactSettings>) ?? {}) },
-    seo: { ...defaultSeo, ...((settingsMap.get('seo') as Partial<SeoSettings>) ?? {}) },
+    contact: mergeSetting(defaultContact, settingsMap.get('contact')),
+    seo: mergeSetting(defaultSeo, settingsMap.get('seo')),
+    home: mergeSetting(defaultHome, settingsMap.get('home')),
+    company: mergeSetting(defaultCompany, settingsMap.get('company')),
+    pages: mergeSetting(defaultPages, settingsMap.get('pages')),
+    faqs: mergeSetting(defaultFaqs, settingsMap.get('faqs')),
+    legal: mergeSetting(defaultLegal, settingsMap.get('legal')),
     source: 'remote',
   }
 }

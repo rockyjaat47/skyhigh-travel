@@ -8,16 +8,16 @@ import { EnquiryForm } from './EnquiryForm'
 
 /** Scene 05 — Arrive. Conversion-focused enquiry. */
 export function PlanJourney({ defaultService, defaultDestination, index = '05' }: { defaultService?: EnquiryService; defaultDestination?: string; index?: string }) {
-  const { contact } = useContent()
+  const { contact, home } = useContent()
   return (
     <section id="plan" aria-labelledby="plan-title" className="relative scroll-mt-24 bg-cloud py-28 sm:py-36">
       <div className="container-x grid gap-16 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-32">
             <SectionLabel index={index}>Arrive</SectionLabel>
-            <SplitHeading as="h2" lines={['Plan your', 'journey.']} className="mt-6 text-display-lg text-navy" />
+            <SplitHeading as="h2" lines={home.planTitle} className="mt-6 text-display-lg text-navy" />
             <p className="mt-6 max-w-sm text-muted">
-              Share a few details and we’ll shape a plan around you. It takes about two minutes — no payment, no obligation.
+              {home.planText}
             </p>
             {(contact.whatsapp || contact.email || contact.phone) && (
               <div className="mt-10 space-y-3 text-sm">

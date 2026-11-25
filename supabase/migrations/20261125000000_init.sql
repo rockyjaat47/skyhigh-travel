@@ -4,7 +4,6 @@
 --  Security: Row Level Security on every table; admin rights via is_admin().
 -- ════════════════════════════════════════════════════════════════════
 
-create extension if not exists pgcrypto;
 
 -- ── Roles ───────────────────────────────────────────────────────────
 -- Administrators are Supabase Auth users listed here. Add the first admin
@@ -41,8 +40,10 @@ revoke all on function public.is_owner() from public;
 grant execute on function public.is_admin() to anon, authenticated;
 grant execute on function public.is_owner() to authenticated;
 
+drop policy if exists "admins read admin list" on public.admin_users;
 create policy "admins read admin list" on public.admin_users
   for select to authenticated using (public.is_admin());
+drop policy if exists "owners manage admin list" on public.admin_users;
 create policy "owners manage admin list" on public.admin_users
   for all to authenticated using (public.is_owner()) with check (public.is_owner());
 
@@ -73,13 +74,17 @@ create index if not exists enquiries_email_idx on public.enquiries (lower(email)
 alter table public.enquiries enable row level security;
 
 -- Public visitors may only INSERT a fresh enquiry; they can never read any.
+drop policy if exists "public can submit enquiries" on public.enquiries;
 create policy "public can submit enquiries" on public.enquiries
   for insert to anon, authenticated
   with check (status = 'new' and admin_notes is null and consent = true);
+drop policy if exists "admins read enquiries" on public.enquiries;
 create policy "admins read enquiries" on public.enquiries
   for select to authenticated using (public.is_admin());
+drop policy if exists "admins update enquiries" on public.enquiries;
 create policy "admins update enquiries" on public.enquiries
   for update to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "owners delete enquiries" on public.enquiries;
 create policy "owners delete enquiries" on public.enquiries
   for delete to authenticated using (public.is_owner());
 
@@ -164,8 +169,10 @@ create table if not exists public.site_settings (
   updated_at timestamptz not null default now()
 );
 alter table public.site_settings enable row level security;
+drop policy if exists "public reads settings" on public.site_settings;
 create policy "public reads settings" on public.site_settings
   for select to anon, authenticated using (true);
+drop policy if exists "admins write settings" on public.site_settings;
 create policy "admins write settings" on public.site_settings
   for all to authenticated using (public.is_admin()) with check (public.is_admin());
 

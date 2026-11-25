@@ -17,7 +17,7 @@ const EASE = [0.16, 1, 0.3, 1] as const
  * in place — nothing depends on hover.
  */
 export function ServicesShowcase() {
-  const { services } = useContent()
+  const { services, home } = useContent()
   const [active, setActive] = useState(0)
   const [open, setOpen] = useState<number | null>(0)
   const current = services[active]
@@ -29,13 +29,13 @@ export function ServicesShowcase() {
           <div>
             <SectionLabel>What we do</SectionLabel>
             <SplitHeading
-              lines={['Six ways we', 'move you forward.']}
+              lines={home.servicesTitle}
               className="mt-6 text-display-lg text-navy"
             />
           </div>
           <div className="max-w-sm">
             <p className="text-muted">
-              One partner for the whole journey — from the first idea to the last mile. All services below are proposed offerings and will be confirmed as they launch.
+              {home.servicesText}
             </p>
             <Button to="/services" variant="outline" className="mt-6">
               View all services
@@ -100,7 +100,7 @@ export function ServicesShowcase() {
                       >
                         <div className="pb-8">
                           <div className="aspect-[4/3] overflow-hidden rounded-2xl">
-                            <Artwork art={s.art} seed={s.slug} />
+                            <Artwork art={s.art} seed={s.slug} sizes="90vw" />
                           </div>
                           <p className="mt-5 text-muted">{s.summary}</p>
                           <Link to={`/services/${s.slug}`} className="label-mono mt-5 inline-flex items-center gap-2 text-navy">
@@ -128,7 +128,7 @@ export function ServicesShowcase() {
                     exit={{ opacity: 0, transition: { duration: 0.6, delay: 0.3 } }}
                     transition={{ duration: 1, ease: EASE }}
                   >
-                    <Artwork art={current.art} seed={current.slug} />
+                    <Artwork art={current.art} seed={current.slug} sizes="40vw" />
                   </motion.div>
                 </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight/80 via-midnight/10 to-transparent" />

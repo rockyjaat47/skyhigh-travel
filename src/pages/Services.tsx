@@ -11,7 +11,8 @@ import { cn } from '../utils/cn'
 
 /** Services index — each service gets its own editorial row, alternating composition. */
 export default function Services() {
-  const { services } = useContent()
+  const { services, pages } = useContent()
+  const pg = pages.services
   return (
     <>
       <Seo
@@ -27,16 +28,12 @@ export default function Services() {
         ]}
       />
       <PageHero
-        art={{ scene: 'mountains', tone: 'dusk', alt: 'Illustration of mountain ridges at dusk' }}
+        art={{ scene: 'mountains', tone: 'dusk', image: pg.image, alt: 'Illustration of mountain ridges at dusk' }}
         seed="services-hero"
         crumbs={[{ name: 'Services' }]}
-        title={['Everything that', 'moves you.']}
-        intro={<p>Six connected services for travellers, teams and businesses — planned with care and coordinated end to end.</p>}
-        aside={
-          <p className="label-mono leading-relaxed text-white/70">
-            All services are currently proposed offerings. Availability, coverage and terms will be confirmed as each service launches.
-          </p>
-        }
+        title={pg.title}
+        intro={<p>{pg.intro}</p>}
+        aside={pg.note ? <p className="label-mono leading-relaxed text-white/70">{pg.note}</p> : undefined}
       />
 
       <section className="bg-cloud py-24 sm:py-32">

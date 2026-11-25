@@ -26,7 +26,7 @@ function StaticGlobe() {
 
 /** Scene 03 — Connect. */
 export function GlobeSection() {
-  const { destinations } = useContent()
+  const { destinations, home } = useContent()
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref)
   const mobile = useIsMobile()
@@ -51,10 +51,10 @@ export function GlobeSection() {
           <SectionLabel index="03" light>
             Connect
           </SectionLabel>
-          <SplitHeading lines={['One network.', 'Every direction.']} className="mt-6 text-display-lg" />
+          <SplitHeading lines={home.connectTitle} className="mt-6 text-display-lg" />
           <Reveal delay={0.2}>
             <p className="mt-8 max-w-md text-lg text-white/75">
-              Connecting people, places and opportunities. Drag the globe to explore the destinations we plan for — tap a marker to open it.
+              {home.connectText}
             </p>
           </Reveal>
           <Reveal delay={0.3}>

@@ -25,6 +25,7 @@ npm run dev               # http://localhost:5173
 | `npm run lint`      | oxlint (ESLint-compatible rules incl. React hooks & a11y)           |
 | `npm test`          | Vitest unit tests (validation, sanitising, CSV export)              |
 | `npm run brand`     | Regenerate the SVG logo system in `public/brand`                    |
+| `node scripts/build-setup-sql.mjs` | Rebuild `supabase/setup.sql` from the migrations          |
 | `npm run check`     | All of the above in sequence                                        |
 
 End-to-end smoke test (routes, links, mobile menu, form validation, filters, WebGL fallback, reduced motion) against a
@@ -66,8 +67,9 @@ nothing is pinned in a way that traps scrolling.
 (`proposed` | `operational`) shown on every surface; destinations and packages carry an `illustrative` flag. Prices are
 never invented ("quoted on request"). When Supabase is configured, published rows override the bundled data.
 
-**Artwork** — `components/ui/Artwork.tsx` renders seeded, art-directed SVG landscapes (11 scenes × 5 tones). Set
-`art.image` (e.g. `images/goa.avif` in `public/images/`) on any item to switch it to real photography.
+**Photos** — 35 licensed Unsplash photos in `public/images/` (WebP, 1600w + 800w with `srcset`), listed in
+`src/data/photos.json` and fetched by `node scripts/fetch-photos.mjs`. Anything without a photo falls back to the
+seeded SVG artwork in `components/ui/Artwork.tsx`.
 
 ---
 
@@ -85,17 +87,22 @@ time, client cool-down). Submission channels, in order:
 
 ## Admin panel (`/admin`)
 
-Requires Supabase. There is deliberately **no client-side-only login**.
+A complete CMS so the business can run the website without a developer:
 
-1. Create a Supabase project. Run `supabase/migrations/20261125000000_init.sql` in the SQL editor (or `supabase db push`).
-2. Authentication → Users → add your admin user (email + password).
-3. In the SQL editor: `insert into admin_users (user_id, role) values ('<that user id>', 'admin');`
-   (`admin` can manage other admins and delete enquiries; `editor` can do everything else.)
-4. Put the project URL and **anon** key in `.env` / GitHub secrets. Never use the service-role key in this app.
-5. Sign in at `/admin`, then press **Import bundled content** on Destinations, Packages and Services.
+- **Pages & text** — every heading, paragraph, list and photo on Home, About, Services, Destinations, Packages,
+  Contact, FAQ, Privacy and Terms (form-based editors; no code or JSON needed).
+- **Destinations / Packages / Services** — add, edit, duplicate, hide/show, delete (owners), with photo pickers,
+  day-by-day itinerary editor, highlights, inclusions, pricing text, map position and SEO text.
+- **Photos** — drag-and-drop uploads (auto-resized and converted to WebP in the browser) to Supabase Storage, plus the
+  35 bundled photos.
+- **Enquiries** — search, filter, status, notes, WhatsApp/email reply, CSV export, delete (owners).
+- **Contact & Google** — phone, WhatsApp, email, address, social links, SEO title/description/share image.
+- **Team** — invite staff by email (magic-link sign-in, no shared passwords). Roles: *Editor* and *Owner*.
 
-Features: dashboard, enquiry search/filter/status/notes, CSV export (formula-injection safe), create/edit/publish/delete
-destinations, packages and services (with artwork preview), contact details, social links and SEO metadata.
+Changes are live immediately (the site reads Supabase at runtime). Security is enforced in Postgres with Row Level
+Security and `security definer` RPCs — see `supabase/migrations/`.
+
+**Setup:** [ADMIN_SETUP.md](ADMIN_SETUP.md) (one-time, ~10 min). **Day-to-day guide (Hinglish):** [ADMIN_GUIDE.md](ADMIN_GUIDE.md).
 
 In `npm run dev` only, `/admin` offers a **local preview** with in-memory sample data so the UI can be reviewed before a
 backend exists. It is stripped from production builds.

@@ -10,7 +10,7 @@ import { SectionLabel, SplitHeading } from '../ui/Motion'
 
 /** Scene 02 — Explore. Filterable horizontal rail (native scroll + snap; never hijacks the page). */
 export function DestinationsShowcase() {
-  const { destinations } = useContent()
+  const { destinations, home } = useContent()
   const [cat, setCat] = useState<string>('all')
   const rail = useRef<HTMLDivElement>(null)
   const [edges, setEdges] = useState({ start: true, end: false })
@@ -39,11 +39,11 @@ export function DestinationsShowcase() {
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <SectionLabel index="02">Explore</SectionLabel>
-            <SplitHeading lines={['Mountains, coasts,', 'cities & stories.']} className="mt-6 text-display-lg text-navy" />
+            <SplitHeading lines={home.exploreTitle} className="mt-6 text-display-lg text-navy" />
           </div>
           <div className="lg:col-span-5">
             <p className="text-muted">
-              A glimpse of the places we love to plan for. Destinations shown are illustrative — every itinerary is tailored on request.
+              {home.exploreText}
             </p>
           </div>
         </div>

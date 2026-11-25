@@ -77,7 +77,7 @@ export const organizationLd = (contact: { email: string; phone: string }) => ({
   url: absUrl('/'),
   logo: absUrl('/brand/skyhigh-icon.svg'),
   slogan: company.tagline,
-  description: company.about[0],
+  description: 'Customer-focused travel, tourism, transportation and logistics solutions combining technology with professional service.',
   ...(contact.email ? { email: contact.email } : {}),
   ...(contact.phone ? { telephone: contact.phone } : {}),
   identifier: { '@type': 'PropertyValue', propertyID: 'CIN', value: company.cin },

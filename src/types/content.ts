@@ -66,6 +66,8 @@ export interface Destination {
   idealFor: string[]
   coordinates: [lat: number, lon: number]
   art: Artwork
+  /** Extra photos shown on the detail page. */
+  gallery?: string[]
   /** True for illustrative showcase content; shown with a clear label. */
   illustrative: boolean
   published: boolean
@@ -115,4 +117,79 @@ export interface SeoSettings {
   titleTemplate: string
   defaultDescription: string
   ogImage: string
+}
+
+/* ── Editable site copy (managed from Admin → Website content) ───────── */
+
+export interface TitledText {
+  title: string
+  text: string
+}
+
+export interface HomeCopy {
+  heroEyebrow: string
+  heroTitle: string[]
+  heroText: string
+  heroPrimaryCta: string
+  heroSecondaryCta: string
+  heroImage: string
+  introLabel: string
+  introStatement: string
+  pillars: TitledText[]
+  servicesTitle: string[]
+  servicesText: string
+  exploreTitle: string[]
+  exploreText: string
+  connectTitle: string[]
+  connectText: string
+  moveTitle: string[]
+  moveText: string
+  moveBanner: string
+  moveImage: string
+  moveItems: TitledText[]
+  valuesTitle: string[]
+  valuesText: string
+  missionImage: string
+  planTitle: string[]
+  planText: string
+}
+
+export interface CompanyCopy {
+  tagline: string
+  about: string[]
+  mission: string
+  vision: string
+  values: TitledText[]
+}
+
+export interface PageHeroCopy {
+  title: string[]
+  intro: string
+  note: string
+  image: string
+}
+
+export interface PagesCopy {
+  about: PageHeroCopy & { storyTitle: string[]; gallery: string[] }
+  services: PageHeroCopy
+  destinations: PageHeroCopy
+  packages: PageHeroCopy
+  contact: { title: string[]; formTitle: string }
+}
+
+export interface FaqItem {
+  q: string
+  a: string
+}
+
+export interface LegalSection {
+  h: string
+  body: string
+}
+
+export interface LegalCopy {
+  updated: string
+  draftNotice: boolean
+  privacy: LegalSection[]
+  terms: LegalSection[]
 }

@@ -105,9 +105,17 @@ export default function DestinationDetail() {
 
         <div className="container-x mt-24">
           <MaskReveal className="aspect-[21/9] min-h-[16rem]">
-            <Artwork art={{ ...d.art, tone: d.art.tone === 'night' ? 'dusk' : 'night' }} seed={`${d.slug}-alt`} />
+            <Artwork art={{ ...d.art, image: d.gallery?.[0] ?? d.art.image, tone: d.art.tone === 'night' ? 'dusk' : 'night' }} seed={`${d.slug}-alt`} />
           </MaskReveal>
-          <p className="label-mono mt-3 text-muted">Illustration — photography will be added as packages are confirmed.</p>
+          {d.gallery && d.gallery.length > 1 && (
+            <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3">
+              {d.gallery.slice(1).map((src, i) => (
+                <div key={src + i} className="aspect-[4/3] overflow-hidden rounded-2xl">
+                  <Artwork art={{ ...d.art, image: src }} seed={`${d.slug}-g${i}`} sizes="(min-width: 768px) 30vw, 45vw" />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -27,7 +27,7 @@ export const services: Service[] = [
     process: ['Share your idea', 'Receive a tailored plan', 'Refine together', 'Travel with support'],
     forWhom: ['Families', 'Couples', 'Solo travellers', 'Groups'],
     status: 'proposed',
-    art: { scene: 'mountains', tone: 'golden', alt: 'Illustration of layered mountain ridges at golden hour' },
+    art: { scene: 'mountains', tone: 'golden', image: 'images/svc-tour.webp', alt: 'Travellers sitting on rocks overlooking a mountain valley' },
     enquiryType: 'tour',
     seo: {
       title: 'Tour & Travel Services',
@@ -55,7 +55,7 @@ export const services: Service[] = [
     process: ['Tell us the route', 'Choose the right vehicle', 'Confirm the schedule', 'Track to arrival'],
     forWhom: ['Travellers', 'Event planners', 'Small businesses', 'Institutions'],
     status: 'proposed',
-    art: { scene: 'road', tone: 'dawn', alt: 'Illustration of a highway stretching toward the horizon at dawn' },
+    art: { scene: 'road', tone: 'dawn', image: 'images/svc-transport.webp', alt: 'A coach and a car on a road through green fields' },
     enquiryType: 'transport-passenger',
     seo: {
       title: 'Passenger & Goods Transportation',
@@ -83,7 +83,7 @@ export const services: Service[] = [
     process: ['Share shipment details', 'Get a movement plan', 'Pickup & transit', 'Delivery confirmation'],
     forWhom: ['Manufacturers', 'Traders', 'Retailers', 'E-commerce sellers'],
     status: 'proposed',
-    art: { scene: 'road', tone: 'dusk', alt: 'Illustration of a freight highway under a dusk sky' },
+    art: { scene: 'road', tone: 'dusk', image: 'images/svc-logistics.webp', alt: 'Freight truck on a rural highway through green fields' },
     enquiryType: 'logistics',
     seo: {
       title: 'Truck & Logistics Services',
@@ -111,7 +111,7 @@ export const services: Service[] = [
     process: ['Share dates & preferences', 'Compare options', 'Confirm bookings', 'Receive documents'],
     forWhom: ['Leisure travellers', 'Students', 'Business travellers', 'Families'],
     status: 'proposed',
-    art: { scene: 'sky', tone: 'day', alt: 'Illustration of an aircraft crossing a clear sky above clouds' },
+    art: { scene: 'sky', tone: 'day', image: 'images/svc-booking.webp', alt: 'Aircraft wing above a sea of white clouds' },
     enquiryType: 'booking',
     seo: {
       title: 'Travel & Accommodation Booking',
@@ -139,7 +139,7 @@ export const services: Service[] = [
     process: ['Understand your policy', 'Plan & approve', 'Travel & support', 'Consolidated records'],
     forWhom: ['Startups', 'SMEs', 'Enterprises', 'Institutions'],
     status: 'proposed',
-    art: { scene: 'city-night', tone: 'night', alt: 'Illustration of a city skyline at night with lit windows' },
+    art: { scene: 'city-night', tone: 'night', image: 'images/svc-corporate.webp', alt: 'Travellers walking through a sunlit airport terminal' },
     enquiryType: 'corporate',
     seo: {
       title: 'Corporate Travel Management',
@@ -167,20 +167,11 @@ export const services: Service[] = [
     process: ['Describe your ideal trip', 'Receive a proposal', 'Personalise details', 'Depart with confidence'],
     forWhom: ['Couples', 'Families', 'Adventurers', 'Pilgrims'],
     status: 'proposed',
-    art: { scene: 'beach', tone: 'dusk', alt: 'Illustration of a calm beach at dusk' },
+    art: { scene: 'beach', tone: 'dusk', image: 'images/svc-custom.webp', alt: 'Cliffside resort pool overlooking the ocean' },
     enquiryType: 'custom-package',
     seo: {
       title: 'Customized Travel Packages',
       description: 'Tailor-made honeymoon, family, adventure and spiritual travel packages designed with you by Skyhigh.',
     },
   },
-]
-
-export const values = [
-  { title: 'Customer satisfaction', text: 'Every decision starts with the traveller — listening first, then planning.' },
-  { title: 'Honesty and transparency', text: 'Clear information, clear terms and no hidden surprises.' },
-  { title: 'Safety and reliability', text: 'Dependable arrangements and careful choices at every stage.' },
-  { title: 'Innovation and technology', text: 'Smart tools that make planning simpler and journeys smoother.' },
-  { title: 'Professionalism', text: 'Courteous, responsive and accountable service.' },
-  { title: 'Quality service', text: 'Attention to detail that turns a trip into an experience.' },
 ]

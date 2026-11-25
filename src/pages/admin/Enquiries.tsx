@@ -1,16 +1,17 @@
-import { Download, RefreshCw, Search, X } from 'lucide-react'
+import { Download, Mail, MessageCircle, RefreshCw, Search, Trash2, X } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { toCsv, type EnquiryRow } from '../../services/adminApi'
 import { enquiryServices } from '../../services/enquirySchema'
 import type { EnquiryStatus } from '../../types/content'
 import { cn } from '../../utils/cn'
-import { useAdminApi } from './AdminApp'
+import { useAdminApi, useRole } from './AdminApp'
 import { Btn, fmtDate, Notice, PageTitle, Panel, STATUS, StatusPill } from './ui'
 
 const serviceLabel = (id: string) => enquiryServices.find((s) => s.id === id)?.label ?? id
 
 export function Enquiries() {
   const api = useAdminApi()
+  const role = useRole()
   const [rows, setRows] = useState<EnquiryRow[] | null>(null)
   const [status, setStatus] = useState<EnquiryStatus | 'all'>('all')
   const [service, setService] = useState('all')
@@ -206,6 +207,38 @@ export function Enquiries() {
               <Btn className="mt-3" onClick={() => update(selected, { admin_notes: notes.trim() || null })}>
                 Save notes
               </Btn>
+              <div className="mt-6 flex flex-wrap gap-2 border-t border-line pt-5">
+                <a
+                  className="inline-flex h-10 items-center gap-2 rounded-full bg-[#16a34a] px-4 text-sm font-semibold text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://wa.me/${selected.phone.replace(/[^\d]/g, '').replace(/^0+/, '').replace(/^(\d{10})$/, '91$1')}?text=${encodeURIComponent(`Hello ${selected.full_name.replace(/^Sample — /, '')}, thank you for your enquiry with Skyhigh.`)}`}
+                >
+                  <MessageCircle className="h-4 w-4" /> WhatsApp
+                </a>
+                <a className="inline-flex h-10 items-center gap-2 rounded-full border border-line px-4 text-sm font-semibold text-navy hover:border-navy" href={`mailto:${selected.email}?subject=${encodeURIComponent('Your Skyhigh enquiry')}`}>
+                  <Mail className="h-4 w-4" /> Email
+                </a>
+                {role === 'admin' && (
+                  <Btn
+                    variant="danger"
+                    className="ml-auto"
+                    onClick={async () => {
+                      if (!window.confirm('Delete this enquiry permanently? This cannot be undone. (Tip: mark it as Spam or Closed instead.)')) return
+                      try {
+                        await api.deleteEnquiry(selected.id)
+                        setRows((rs) => rs?.filter((x) => x.id !== selected.id) ?? null)
+                        setSelected(null)
+                        setMsg({ kind: 'success', text: 'Enquiry deleted.' })
+                      } catch (e) {
+                        setMsg({ kind: 'error', text: (e as Error).message })
+                      }
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" /> Delete
+                  </Btn>
+                )}
+              </div>
             </div>
           )}
         </Panel>

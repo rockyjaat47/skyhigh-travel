@@ -18,4 +18,12 @@ export const hashString = (s: string) => {
   return h >>> 0
 }
 
-export const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+/** Resolves a bundled path ("images/x.webp") against the base URL; absolute URLs pass through. */
+export const asset = (path: string) => (/^(https?:|blob:|data:)/.test(path) ? path : `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`)
+
+/** Bundled photos ship as name.webp (1600w) + name-sm.webp (800w). */
+export const srcSetFor = (path: string) =>
+  /^\/?images\/[\w-]+\.webp$/.test(path) && !path.endsWith('-sm.webp') ? `${asset(path.replace(/\.webp$/, '-sm.webp'))} 800w, ${asset(path)} 1600w` : undefined
+
+/** Only allow safe image sources from editable content. */
+export const safeImage = (path?: string) => (path && /^(https:\/\/|blob:|\/?images\/|\/?brand\/|\/?assets\/)/.test(path.trim()) ? path.trim() : '')

@@ -11,7 +11,8 @@ import { useContent } from '../hooks/useContent'
 import { cn } from '../utils/cn'
 
 export default function Packages() {
-  const { packages, destinations } = useContent()
+  const { packages, destinations, pages } = useContent()
+  const pg = pages.packages
   const [params, setParams] = useSearchParams()
   const q = params.get('q') ?? ''
   const theme = params.get('theme') ?? 'all'
@@ -54,12 +55,12 @@ export default function Packages() {
         breadcrumbs={[{ name: 'Packages', path: '/packages' }]}
       />
       <PageHero
-        art={{ scene: 'backwaters', tone: 'golden', alt: 'Illustration of calm backwaters at golden hour' }}
+        art={{ scene: 'backwaters', tone: 'golden', image: pg.image, alt: 'Illustration of calm backwaters at golden hour' }}
         seed="pkg-hero"
         crumbs={[{ name: 'Packages' }]}
-        title={['Journeys,', 'ready to shape.']}
-        intro={<p>Sample itineraries that show how we structure a trip. Every package is customised — dates, stays, pace and budget.</p>}
-        aside={<p className="label-mono leading-relaxed text-white/70">Sample itineraries for illustration. Prices are quoted on request; inclusions are confirmed at booking.</p>}
+        title={pg.title}
+        intro={<p>{pg.intro}</p>}
+        aside={pg.note ? <p className="label-mono leading-relaxed text-white/70">{pg.note}</p> : undefined}
       />
 
       <section className="bg-cloud py-16 sm:py-24">

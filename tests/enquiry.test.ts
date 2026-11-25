@@ -66,3 +66,28 @@ describe('CSV export', () => {
     expect(csv).toContain(`"'+91 1"`)
   })
 })
+
+describe('content helpers', async () => {
+  const { mergeSetting } = await import('../src/services/content')
+  const { safeImage, srcSetFor } = await import('../src/utils/cn')
+
+  it('merges saved settings over defaults without losing new fields', () => {
+    const def = { a: 1, b: 'x', nested: { p: 1, q: 2 }, list: [1, 2] }
+    expect(mergeSetting(def, { b: 'y', nested: { q: 9 } })).toEqual({ a: 1, b: 'y', nested: { p: 1, q: 9 }, list: [1, 2] })
+    expect(mergeSetting([1, 2], [])).toEqual([1, 2])
+    expect(mergeSetting([1, 2], [3])).toEqual([3])
+    expect(mergeSetting(def, null)).toEqual(def)
+  })
+
+  it('only allows safe image sources from editable content', () => {
+    expect(safeImage('images/goa.webp')).toBe('images/goa.webp')
+    expect(safeImage('https://x.supabase.co/storage/v1/object/public/media/a.webp')).toContain('https://')
+    expect(safeImage('javascript:alert(1)')).toBe('')
+    expect(safeImage('http://insecure.example/a.jpg')).toBe('')
+  })
+
+  it('builds responsive srcset for bundled photos only', () => {
+    expect(srcSetFor('images/goa.webp')).toContain('goa-sm.webp 800w')
+    expect(srcSetFor('https://cdn.example/a.webp')).toBeUndefined()
+  })
+})

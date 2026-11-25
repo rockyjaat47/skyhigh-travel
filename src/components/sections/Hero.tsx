@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowDown } from 'lucide-react'
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { gsap, sceneState, ScrollTrigger, useGSAP } from '../../animations/gsap'
+import { useContent } from '../../hooks/useContent'
 import { detectWebGL, useInView, useIsMobile, useReducedMotion } from '../../hooks/useMedia'
 import { track } from '../../services/analytics'
 import { Artwork } from '../ui/Artwork'
@@ -12,10 +13,10 @@ const HeroScene = lazy(() => import('../three/HeroScene'))
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-function StaticSky() {
+function StaticSky({ image }: { image?: string }) {
   return (
     <div className="absolute inset-0">
-      <Artwork art={{ scene: 'sky', tone: 'golden', alt: '' }} seed="hero-static" decorative priority />
+      <Artwork art={{ scene: 'sky', tone: 'golden', image, alt: '' }} seed="hero-static" decorative priority />
     </div>
   )
 }
@@ -27,6 +28,8 @@ export function Hero() {
   const mobile = useIsMobile()
   const reduced = useReducedMotion()
   const [webgl] = useState(detectWebGL)
+  const { home } = useContent()
+  const fallback = <StaticSky image={home.heroImage} />
 
   // pointer parallax (desktop) → shared scene state
   useEffect(() => {
@@ -69,13 +72,13 @@ export function Hero() {
         {/* 3D scene / fallback */}
         <div className="absolute inset-0">
           {webgl ? (
-            <WebGLBoundary fallback={<StaticSky />}>
-              <Suspense fallback={<StaticSky />}>
+            <WebGLBoundary fallback={fallback}>
+              <Suspense fallback={fallback}>
                 <HeroScene active={inView} mobile={mobile} reduced={reduced} />
               </Suspense>
             </WebGLBoundary>
           ) : (
-            <StaticSky />
+            fallback
           )}
         </div>
 
@@ -91,12 +94,12 @@ export function Hero() {
             transition={{ delay: 0.9, duration: 1, ease: EASE }}
           >
             <span className="h-1.5 w-1.5 bg-orange" aria-hidden="true" />
-            Travel. Transport. Technology.
+            {home.heroEyebrow}
           </motion.p>
 
           <h1 className="mt-5 font-display text-display-xl font-medium tracking-[-0.045em]">
-            {['The World Is', 'Closer Than Ever.'].map((line, i) => (
-              <span key={line} className="split-line">
+            {home.heroTitle.map((line, i) => (
+              <span key={i} className="split-line">
                 <motion.span
                   className="split-inner"
                   initial={reduced ? false : { y: '110%' }}
@@ -116,7 +119,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.45, duration: 1.1, ease: EASE }}
             >
-              Connecting people, places and possibilities through smarter travel and transportation solutions.
+              {home.heroText}
             </motion.p>
             <motion.div
               className="flex flex-col gap-3 sm:flex-row"
@@ -125,10 +128,10 @@ export function Hero() {
               transition={{ delay: 1.6, duration: 1.1, ease: EASE }}
             >
               <Button to="/services" size="lg" onClick={() => track('cta_click', { cta: 'hero_explore_services' })}>
-                Explore our services
+                {home.heroPrimaryCta}
               </Button>
               <Button to="/contact#plan" size="lg" variant="outline-light" onClick={() => track('cta_click', { cta: 'hero_plan_journey' })}>
-                Plan your journey
+                {home.heroSecondaryCta}
               </Button>
             </motion.div>
           </div>

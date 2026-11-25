@@ -7,7 +7,7 @@ import { whatsappLink } from '../../services/enquiry'
 import { LogoMark, Logo } from '../ui/Logo'
 
 export function Footer() {
-  const { services, contact } = useContent()
+  const { services, contact, company: copy } = useContent()
   const year = new Date().getFullYear()
   const hasContact = contact.email || contact.phone || contact.whatsapp || contact.address
 
@@ -17,7 +17,7 @@ export function Footer() {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Logo tone="white" />
-            <p className="mt-8 max-w-sm font-display text-2xl leading-tight tracking-tight text-white/90 sm:text-3xl">{company.tagline}</p>
+            <p className="mt-8 max-w-sm font-display text-2xl leading-tight tracking-tight text-white/90 sm:text-3xl">{copy.tagline}</p>
             <div className="mt-8 space-y-3 text-sm text-white/70">
               {contact.email && (
                 <a href={`mailto:${contact.email}`} onClick={() => track('contact_click', { channel: 'email', from: 'footer' })} className="flex items-center gap-3 hover:text-white">
