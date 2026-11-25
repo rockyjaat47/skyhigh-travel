@@ -24,8 +24,9 @@ Supabase dashboard → **Authentication → URL Configuration**:
 - **Redirect URLs** → add `https://rockyjaat47.github.io/skyhigh-travel/admin/` (with the trailing slash) and, for local
   work, `http://localhost:5173/admin/`
 
-Optional but recommended: **Authentication → Providers → Email** → turn **off** "Allow new users to sign up".
-Invites from the admin Team page still work because they're sent by an owner.
+Keep **Authentication → Providers → Email → "Allow new users to sign up"** switched **on** — invites for new staff
+rely on it. It's safe: signing up gives no access at all; only emails invited by an owner (or listed in `setup.sql`)
+can use the admin.
 
 > The free Supabase email sender is limited to a few emails per hour. For a team, add your own SMTP under
 > **Authentication → Emails → SMTP settings** (e.g. Zoho, Gmail Workspace, Brevo).
