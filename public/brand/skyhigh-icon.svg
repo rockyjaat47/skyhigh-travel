@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.0 64.0" role="img" aria-label="Skyhigh">
+  <title>Skyhigh</title>
+  <g transform="translate(0 0) scale(1)">
+    <g transform="rotate(35 32 34)">
+      <path d="M32 5C34.6 9.4 35.9 14.6 36 19.6C45.5 19.8 53.6 26 60.5 36.5C52.4 31.6 44.6 29.6 36 30.2L35.6 40.5L40.6 56L32 49.6L23.4 56L28.4 40.5L28 30.2C19.4 29.6 11.6 31.6 3.5 36.5C10.4 26 18.5 19.8 28 19.6C28.1 14.6 29.4 9.4 32 5Z" fill="#071D36"/>
+      <path d="M36 19.6C45.5 19.8 53.6 26 60.5 36.5C52.4 31.6 44.6 29.6 36 30.2Z" fill="#009FE3"/>
+    </g>
+    <circle cx="53.5" cy="8.5" r="4.2" fill="#FF7900"/>
+  </g>
+</svg>
