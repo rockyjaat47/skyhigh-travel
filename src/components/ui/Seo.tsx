@@ -13,7 +13,12 @@ interface SeoProps {
   jsonLd?: Record<string, unknown>[]
 }
 
-export const absUrl = (path: string) => `${env.siteUrl.replace(/\/$/, '')}${path.startsWith('/') ? path : `/${path}`}`
+/** Absolute URL. Page routes get a trailing slash to match how static hosts serve <route>/index.html. */
+export const absUrl = (path: string) => {
+  let p = path.startsWith('/') ? path : `/${path}`
+  if (!/\.[a-z0-9]+$/i.test(p) && !p.endsWith('/')) p += '/'
+  return `${env.siteUrl.replace(/\/$/, '')}${p}`
+}
 
 /**
  * Per-page metadata. React 19 hoists <title>/<meta>/<link> into <head>.
@@ -24,7 +29,7 @@ export function Seo({ title, description, image, type = 'website', noindex, brea
   const { seo } = useContent()
   const fullTitle = title ? seo.titleTemplate.replace('%s', title) : seo.defaultTitle
   const desc = description ?? seo.defaultDescription
-  const url = absUrl(pathname === '/' ? '/' : pathname.replace(/\/$/, ''))
+  const url = absUrl(pathname)
   const img = absUrl(image ?? seo.ogImage)
 
   const ld: Record<string, unknown>[] = [...jsonLd]
