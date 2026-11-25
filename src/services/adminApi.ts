@@ -117,7 +117,7 @@ const fileName = (original: string) => {
   return `${Date.now().toString(36)}-${base}`
 }
 
-const redirectTo = () => `${window.location.origin}${import.meta.env.BASE_URL}admin`
+const redirectTo = () => `${window.location.origin}${import.meta.env.BASE_URL}admin/`
 
 /** Supabase-backed implementation. Authorisation is enforced server-side by RLS + RPCs. */
 async function supabaseApi(): Promise<AdminApi> {

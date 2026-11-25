@@ -21,7 +21,8 @@ The admin panel stores everything (text, photos, destinations, packages, service
 Supabase dashboard → **Authentication → URL Configuration**:
 
 - **Site URL**: `https://rockyjaat47.github.io/skyhigh-travel/`
-- **Redirect URLs** → add: `https://rockyjaat47.github.io/skyhigh-travel/admin` and (for local work) `http://localhost:5173/admin`
+- **Redirect URLs** → add `https://rockyjaat47.github.io/skyhigh-travel/admin/` (with the trailing slash) and, for local
+  work, `http://localhost:5173/admin/`
 
 Optional but recommended: **Authentication → Providers → Email** → turn **off** "Allow new users to sign up".
 Invites from the admin Team page still work because they're sent by an owner.
