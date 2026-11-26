@@ -16,7 +16,7 @@ The admin panel stores everything (text, photos, destinations, packages, service
 3. Supabase dashboard → **SQL Editor** → **New query** → paste the whole file → **Run**.
    You should see "Success. No rows returned". (Running it again later is safe.)
 
-## 3. Allow sign-in links back to your site
+## 3. Site URL and sign-ups
 
 Supabase dashboard → **Authentication → URL Configuration**:
 
@@ -24,12 +24,14 @@ Supabase dashboard → **Authentication → URL Configuration**:
 - **Redirect URLs** → add `https://skyhighbird.com/admin/` (with the trailing slash) and, for local
   work, `http://localhost:5173/admin/`
 
-Keep **Authentication → Providers → Email → "Allow new users to sign up"** switched **on** — invites for new staff
-rely on it. It's safe: signing up gives no access at all; only emails invited by an owner (or listed in `setup.sql`)
-can use the admin.
+Turn **Authentication → Sign In / Providers → "Allow new users to sign up"** **off**. The admin is a single account
+created by hand (next step), so nobody else can register.
 
-> The free Supabase email sender is limited to a few emails per hour. For a team, add your own SMTP under
-> **Authentication → Emails → SMTP settings** (e.g. Zoho, Gmail Workspace, Brevo).
+## 3b. Create the admin login
+
+**Authentication → Users → Add user → Create new user** → the owner's email and a strong password → tick
+**Auto Confirm User** → Create. The email must match the one in the last line of `setup.sql`; on first sign-in that
+account becomes the admin.
 
 ## 4. Connect the website
 
@@ -54,10 +56,9 @@ Redeploy: GitHub → **Actions → Build & deploy to GitHub Pages → Run workfl
 ## 5. First sign-in
 
 1. Open `https://skyhighbird.com/admin`.
-2. Enter the owner email from step 2 → **Email me a sign-in link** → open the link from your inbox.
+2. Sign in with the email and password from step 3b.
 3. You're in as **Owner**. Go to **Destinations**, **Packages** and **Services** and click **Import starter content**
    once on each, so the existing content becomes editable.
-4. Invite staff from **Team** (Editor = can edit everything; Owner = can also delete and manage the team).
 
 Done. Every change saved in the admin appears on the live website immediately — no rebuild needed.
 
@@ -69,9 +70,9 @@ Done. Every change saved in the admin appears on the live website immediately �
 | --- | --- |
 | Page text, headings, FAQ, legal, contact details, SEO | `site_settings` table |
 | Destinations, packages, services | `destinations`, `packages`, `services` tables |
-| Uploaded photos | Storage bucket `media` (public read, team-only upload) |
+| Uploaded photos | Storage bucket `media` (public read, admin-only upload) |
 | Enquiries from the website form | `enquiries` table (public can only *submit*, never read) |
-| Team & roles | `admin_users`, `admin_invites` |
+| Admin access | `admin_users`, `admin_invites` |
 
 Security is enforced in the database (Row Level Security), not in the browser. The anon key is safe to publish — it
 can only do what the policies allow.

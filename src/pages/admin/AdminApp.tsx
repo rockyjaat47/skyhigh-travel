@@ -1,4 +1,4 @@
-import { AlertTriangle, BarChart3, Database, FileText, Globe2, ImageIcon, Inbox, KeyRound, LogOut, Mail, Map, Menu, Package, Settings, ShieldCheck, Users, X } from 'lucide-react'
+import { AlertTriangle, BarChart3, Database, FileText, Globe2, ImageIcon, Inbox, Eye, EyeOff, KeyRound, LogOut, Map, Menu, Package, Settings, ShieldCheck, X } from 'lucide-react'
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { LogoMark } from '../../components/ui/Logo'
@@ -11,7 +11,6 @@ import { Dashboard } from './Dashboard'
 import { Enquiries } from './Enquiries'
 import { MediaLibrary } from './MediaLibrary'
 import { SettingsEditor } from './SettingsEditor'
-import { Team } from './Team'
 
 const ApiCtx = createContext<AdminApi | null>(null)
 const RoleCtx = createContext<Role>('editor')
@@ -35,7 +34,6 @@ const NAV = [
   { to: '/admin/media', label: 'Photos', icon: ImageIcon },
   { heading: 'Settings' },
   { to: '/admin/settings', label: 'Contact & Google', icon: Settings },
-  { to: '/admin/team', label: 'Team', icon: Users, ownerOnly: true },
 ] as const
 
 function Shell({ api, email, role, onSignOut, children }: { api: AdminApi; email: string; role: Role; onSignOut: () => void; children: ReactNode }) {
@@ -147,7 +145,7 @@ function SetupScreen({ onPreview }: { onPreview?: () => void }) {
             'Create a free project at supabase.com.',
             'Open its SQL editor and run supabase/setup.sql (put your email in the last line first).',
             'Add the project URL and anon key to GitHub → Settings → Secrets, then redeploy.',
-            'Come back here and use “Email me a sign-in link”.',
+            'Create the admin user in Supabase → Authentication → Users, then sign in here with that email and password.',
           ].map((s, i) => (
             <li key={i} className="flex gap-4">
               <span className="font-display text-orange">0{i + 1}</span>
@@ -171,11 +169,10 @@ function SetupScreen({ onPreview }: { onPreview?: () => void }) {
 }
 
 function SignIn({ api, onDone }: { api: AdminApi; onDone: () => void }) {
-  const [mode, setMode] = useState<'link' | 'password'>('link')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [show, setShow] = useState(false)
   const [error, setError] = useState('')
-  const [sent, setSent] = useState(false)
   const [busy, setBusy] = useState(false)
 
   return (
@@ -187,15 +184,11 @@ function SignIn({ api, onDone }: { api: AdminApi; onDone: () => void }) {
           setBusy(true)
           setError('')
           try {
-            if (mode === 'link') {
-              await api.sendMagicLink(email.trim().toLowerCase())
-              setSent(true)
-            } else {
-              await api.signIn(email.trim().toLowerCase(), password)
-              onDone()
-            }
+            await api.signIn(email.trim().toLowerCase(), password)
+            onDone()
           } catch (err) {
-            setError(err instanceof Error ? err.message : 'Sign-in failed')
+            const msg = err instanceof Error ? err.message : ''
+            setError(/invalid login credentials/i.test(msg) ? 'Wrong email or password.' : msg || 'Sign-in failed')
           } finally {
             setBusy(false)
           }
@@ -203,38 +196,29 @@ function SignIn({ api, onDone }: { api: AdminApi; onDone: () => void }) {
       >
         <LogoMark className="h-10 w-10" />
         <h1 className="mt-6 font-display text-2xl font-medium text-navy">Admin sign in</h1>
-        <p className="mt-1 text-sm text-muted">For Skyhigh staff only.</p>
-        {sent ? (
-          <div role="status" className="mt-8 rounded-2xl bg-sky/10 p-4 text-sm text-navy">
-            <Mail className="mb-2 h-5 w-5 text-sky" />
-            Check <strong>{email}</strong> — we’ve sent a sign-in link. Open it on this device. (Check spam if it doesn’t arrive in a minute.)
-          </div>
-        ) : (
-          <>
-            <label className="mt-8 block">
-              <span className="label-mono text-muted">Email</span>
-              <input type="email" required autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} className="field-input" />
-            </label>
-            {mode === 'password' && (
-              <label className="mt-5 block">
-                <span className="label-mono text-muted">Password</span>
-                <input type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} className="field-input" />
-              </label>
-            )}
-            {error && (
-              <p role="alert" className="mt-4 text-sm text-[#c2410c]">
-                {error}
-              </p>
-            )}
-            <button type="submit" disabled={busy} className="mt-8 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-navy font-semibold text-white disabled:opacity-60">
-              {mode === 'link' ? <Mail className="h-4 w-4" /> : <KeyRound className="h-4 w-4" />}
-              {busy ? 'Please wait…' : mode === 'link' ? 'Email me a sign-in link' : 'Sign in'}
+        <p className="mt-1 text-sm text-muted">For the Skyhigh admin only.</p>
+        <label className="mt-8 block">
+          <span className="label-mono text-muted">Email</span>
+          <input type="email" required autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} className="field-input" />
+        </label>
+        <label className="mt-5 block">
+          <span className="label-mono text-muted">Password</span>
+          <span className="relative block">
+            <input type={show ? 'text' : 'password'} required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} className="field-input pr-12" />
+            <button type="button" onClick={() => setShow(!show)} aria-label={show ? 'Hide password' : 'Show password'} className="absolute right-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-muted hover:text-navy">
+              {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
-            <button type="button" onClick={() => setMode(mode === 'link' ? 'password' : 'link')} className="mt-4 block w-full text-center text-sm text-muted underline-offset-2 hover:text-navy hover:underline">
-              {mode === 'link' ? 'Use a password instead' : 'Email me a link instead'}
-            </button>
-          </>
+          </span>
+        </label>
+        {error && (
+          <p role="alert" className="mt-4 text-sm text-[#c2410c]">
+            {error}
+          </p>
         )}
+        <button type="submit" disabled={busy} className="mt-8 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-navy font-semibold text-white disabled:opacity-60">
+          <KeyRound className="h-4 w-4" />
+          {busy ? 'Please wait…' : 'Sign in'}
+        </button>
         <Link to="/" className="label-mono mt-6 block text-center text-muted hover:text-navy">
           ← Back to website
         </Link>
@@ -309,7 +293,7 @@ export default function AdminApp() {
         <div className="max-w-md text-center">
           <ShieldCheck className="mx-auto h-10 w-10 text-orange" />
           <h1 className="mt-6 font-display text-2xl font-medium text-navy">No admin access yet</h1>
-          <p className="mt-2 text-muted">{state.email} is signed in but isn’t on the Skyhigh team. Ask an owner to invite this email from Admin → Team.</p>
+          <p className="mt-2 text-muted">{state.email} doesn’t have admin access to this website.</p>
           <button type="button" className="mt-6 h-11 rounded-full bg-navy px-5 text-sm font-semibold text-white" onClick={async () => (await api.signOut(), check(api))}>
             Sign out
           </button>
@@ -344,7 +328,6 @@ export default function AdminApp() {
             <Route path="media" element={<MediaLibrary />} />
             <Route path="settings" element={<SettingsEditor group="settings" />} />
             <Route path="settings/:key" element={<SettingsEditor group="settings" />} />
-            <Route path="team" element={<Team />} />
             <Route path="*" element={<Navigate to="/admin" replace />} />
           </Routes>
         </Shell>

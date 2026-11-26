@@ -97,7 +97,7 @@ A complete CMS so the business can run the website without a developer:
   35 bundled photos.
 - **Enquiries** — search, filter, status, notes, WhatsApp/email reply, CSV export, delete (owners).
 - **Contact & Google** — phone, WhatsApp, email, address, social links, SEO title/description/share image.
-- **Team** — invite staff by email (magic-link sign-in, no shared passwords). Roles: *Editor* and *Owner*.
+- **Sign-in** — one admin account, email + password (created in Supabase; public sign-ups are off).
 
 Changes are live immediately (the site reads Supabase at runtime). Security is enforced in Postgres with Row Level
 Security and `security definer` RPCs — see `supabase/migrations/`.

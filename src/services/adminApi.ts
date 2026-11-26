@@ -44,22 +44,13 @@ export interface MediaItem {
   created_at?: string
 }
 
-export interface TeamMember {
-  user_id: string | null
-  email: string
-  role: Role
-  pending: boolean
-  created_at: string
-}
-
 export interface AdminApi {
   mode: 'supabase' | 'preview'
   // auth
   getUser(): Promise<{ email: string } | null>
   signIn(email: string, password: string): Promise<void>
-  sendMagicLink(email: string): Promise<void>
   signOut(): Promise<void>
-  /** Accepts a pending invite (if any) and returns the user's role, or null if not staff. */
+  /** Returns the signed-in user's admin role, or null if they have no access. */
   getRole(): Promise<Role | null>
   // enquiries
   listEnquiries(opts?: { status?: EnquiryStatus | 'all'; search?: string }): Promise<EnquiryRow[]>
@@ -76,10 +67,6 @@ export interface AdminApi {
   listMedia(): Promise<MediaItem[]>
   uploadMedia(file: File): Promise<MediaItem>
   deleteMedia(path: string): Promise<void>
-  // team
-  listTeam(): Promise<TeamMember[]>
-  inviteMember(email: string, role: Role): Promise<void>
-  removeMember(email: string): Promise<void>
 }
 
 export const localFor = (t: ContentTable) =>
@@ -117,7 +104,6 @@ const fileName = (original: string) => {
   return `${Date.now().toString(36)}-${base}`
 }
 
-const redirectTo = () => `${window.location.origin}${import.meta.env.BASE_URL}admin/`
 
 /** Supabase-backed implementation. Authorisation is enforced server-side by RLS + RPCs. */
 async function supabaseApi(): Promise<AdminApi> {
@@ -135,10 +121,6 @@ async function supabaseApi(): Promise<AdminApi> {
     },
     async signIn(email, password) {
       const { error } = await sb.auth.signInWithPassword({ email, password })
-      if (error) throw new Error(error.message)
-    },
-    async sendMagicLink(email) {
-      const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: redirectTo() } })
       if (error) throw new Error(error.message)
     },
     async signOut() {
@@ -203,18 +185,6 @@ async function supabaseApi(): Promise<AdminApi> {
     async deleteMedia(path) {
       must(await bucket().remove([path]))
     },
-    async listTeam() {
-      return must(await sb.rpc('list_team')) as TeamMember[]
-    },
-    async inviteMember(email, role) {
-      must(await sb.rpc('invite_member', { p_email: email, p_role: role }))
-      // Email them a sign-in link (creates their login if it doesn't exist yet).
-      const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: redirectTo() } })
-      if (error) throw new Error(`Invite saved, but the email could not be sent: ${error.message}. Ask them to use “Email me a sign-in link” on the admin page.`)
-    },
-    async removeMember(email) {
-      must(await sb.rpc('remove_member', { p_email: email }))
-    },
   }
 }
 
@@ -237,7 +207,6 @@ function previewApi(): AdminApi {
   const content: Record<ContentTable, ContentRow[]> = { services: toRows('services'), destinations: toRows('destinations'), packages: toRows('packages') }
   const settings: Record<string, unknown> = structuredClone(settingsDefaults)
   let media: MediaItem[] = []
-  let team: TeamMember[] = [{ user_id: 'me', email: 'preview@localhost', role: 'admin', pending: false, created_at: days(-10) }]
   const wait = () => new Promise((r) => setTimeout(r, 120))
   return {
     mode: 'preview',
@@ -245,7 +214,6 @@ function previewApi(): AdminApi {
       return { email: 'preview@localhost' }
     },
     async signIn() {},
-    async sendMagicLink() {},
     async signOut() {},
     async getRole() {
       return 'admin'
@@ -295,18 +263,6 @@ function previewApi(): AdminApi {
     },
     async deleteMedia(path) {
       media = media.filter((m) => m.path !== path)
-    },
-    async listTeam() {
-      return team
-    },
-    async inviteMember(email, role) {
-      await wait()
-      if (team.some((t) => t.email === email)) throw new Error('That person is already on the team.')
-      team = [...team, { user_id: null, email, role, pending: true, created_at: new Date().toISOString() }]
-    },
-    async removeMember(email) {
-      if (email === 'preview@localhost') throw new Error('You can’t remove yourself.')
-      team = team.filter((t) => t.email !== email)
     },
   }
 }

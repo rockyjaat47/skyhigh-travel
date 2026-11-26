@@ -2,7 +2,8 @@
 
 Admin panel kholo: **https://skyhighbird.com/admin**
 
-Login ke liye apna email daalo → **"Email me a sign-in link"** → email mein aaya link kholo. Password ki zarurat nahi.
+Login: admin email aur password daalo → **Sign in**. Sirf ek hi admin account hai; website par naya account koi nahi bana sakta.
+Password bhool gaye? Supabase dashboard → Authentication → Users → us user par ⋯ → naya password set karo.
 Jo bhi aap **Save** karoge, woh website par turant live ho jaata hai.
 
 ---
@@ -19,7 +20,6 @@ Jo bhi aap **Save** karoge, woh website par turant live ho jaata hai.
 | **Services** | 6 services ka text aur photo. Jab service shuru ho jaaye, Status ko **"Available now"** kar do |
 | **Photos** | Apni photos upload karo (mobile se bhi). Photos apne-aap compress ho jaati hain |
 | **Contact & Google** | Phone, WhatsApp, email, address, social media links; Google search mein dikhne wala title/description |
-| **Team** | Staff ko invite karna (sirf Owner) |
 
 ## Aam kaam
 
@@ -42,4 +42,4 @@ Jo bhi aap **Save** karoge, woh website par turant live ho jaata hai.
 - Customer ka passport ya card number kabhi website par na maangein.
 - Privacy Policy aur Terms abhi **draft** hain — lawyer se check karwa ke hi "draft notice" band karein.
 - Delete karne ke bajaye **Hide** karna safe hai — galti ho to wapas la sakte ho.
-- Login link sirf usi device par kholein jahan se maanga tha.
+- Password kisi ke saath share na karein; shared computer par kaam ke baad **Sign out** karein.
