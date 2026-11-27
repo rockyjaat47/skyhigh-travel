@@ -73,7 +73,7 @@ export interface Destination {
   published: boolean
 }
 
-export type PackageTheme = 'family' | 'honeymoon' | 'adventure' | 'spiritual' | 'corporate' | 'leisure'
+export type PackageTheme = 'family' | 'honeymoon' | 'adventure' | 'spiritual' | 'corporate' | 'leisure' | 'beach' | 'hill-station' | 'heritage' | 'international'
 
 export interface TravelPackage {
   slug: string
@@ -87,6 +87,12 @@ export interface TravelPackage {
   exclusions: string[]
   /** Pricing is never fabricated — shown as "On request" until provided. */
   priceNote: string
+  /** Optional public price per person in ₹ (enables price filters and online booking requests). */
+  pricePerPerson?: number
+  /** Optional earlier price in ₹ — shown struck through to advertise an offer. */
+  originalPrice?: number
+  /** Optional short offer label, e.g. “Winter special”. */
+  offerLabel?: string
   art: Artwork
   illustrative: boolean
   published: boolean

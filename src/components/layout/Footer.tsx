@@ -57,6 +57,9 @@ export function Footer() {
                   ['About', '/about'],
                   ['Destinations', '/destinations'],
                   ['Packages', '/packages'],
+                  ['Offers', '/packages?offers=1'],
+                  ['My account', '/account'],
+                  ['Travel agents (B2B)', '/agents'],
                   ['Contact', '/contact'],
                 ].map(([l, to]) => (
                   <li key={to}>

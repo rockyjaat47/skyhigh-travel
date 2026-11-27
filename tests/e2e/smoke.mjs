@@ -10,7 +10,7 @@ const routes = [
   '/', '/about', '/services', '/services/tour-travel', '/services/transportation', '/services/logistics',
   '/services/travel-booking', '/services/corporate-travel', '/services/custom-packages', '/destinations',
   '/destinations/ladakh', '/destinations/goa', '/packages', '/packages/ladakh-high-roads', '/contact',
-  '/privacy-policy', '/terms-and-conditions', '/404', '/this-does-not-exist', '/services/unknown', '/admin',
+  '/privacy-policy', '/terms-and-conditions', '/404', '/this-does-not-exist', '/services/unknown', '/admin', '/login', '/account', '/agents', '/tours/honeymoon-tours', '/tours/unknown',
 ]
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || undefined, args: ['--use-angle=metal', '--ignore-gpu-blocklist'] })

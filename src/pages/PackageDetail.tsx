@@ -1,17 +1,21 @@
 import { Check, Clock, Minus } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
+import { BookingPanel, PriceBox, useAgentPrice } from '../components/booking/BookingPanel'
+import { Reviews } from '../components/booking/Reviews'
 import { PageHero } from '../components/layout/PageHero'
 import { PlanJourney } from '../components/sections/PlanJourney'
 import { Button } from '../components/ui/Button'
 import { Reveal, SectionLabel, StatusTag } from '../components/ui/Motion'
 import { absUrl, Seo } from '../components/ui/Seo'
 import { useContent } from '../hooks/useContent'
+import { formatINR, hasPrice, nightsDays } from '../utils/price'
 import NotFound from './NotFound'
 
 export default function PackageDetail() {
   const { slug } = useParams()
   const { packages, destinations } = useContent()
   const p = packages.find((x) => x.slug === slug)
+  const agentPrice = useAgentPrice(slug ?? '')
   if (!p) return <NotFound />
   const dests = p.destinationSlugs.map((s) => destinations.find((d) => d.slug === s)).filter(Boolean) as typeof destinations
 
@@ -32,6 +36,7 @@ export default function PackageDetail() {
             description: p.summary,
             url: absUrl(`/packages/${p.slug}`),
             itinerary: dests.map((d) => ({ '@type': 'TouristDestination', name: d.name })),
+            ...(hasPrice(p) ? { offers: { '@type': 'Offer', price: p.pricePerPerson, priceCurrency: 'INR', url: absUrl(`/packages/${p.slug}`) } } : {}),
           },
         ]}
       />
@@ -50,9 +55,14 @@ export default function PackageDetail() {
         aside={
           <div className="flex flex-wrap items-center gap-6 md:justify-end">
             <span className="flex items-center gap-2 font-display text-2xl">
-              <Clock className="h-5 w-5" /> {p.durationDays} days
+              <Clock className="h-5 w-5" /> {nightsDays(p.durationDays)}
             </span>
-            <Button to={`/packages/${p.slug}#plan`}>Request this trip</Button>
+            {hasPrice(p) && (
+              <span className="font-display text-2xl">
+                {formatINR(agentPrice ?? p.pricePerPerson!)} <span className="text-sm text-white/70">/ person</span>
+              </span>
+            )}
+            <Button to={`/packages/${p.slug}#book`}>Book now</Button>
           </div>
         }
       />
@@ -74,10 +84,7 @@ export default function PackageDetail() {
           </div>
           <aside className="lg:col-span-4 lg:col-start-9">
             <div className="space-y-6 lg:sticky lg:top-32">
-              <div className="rounded-[1.6rem] border border-line bg-white p-7">
-                <p className="label-mono text-muted">Price</p>
-                <p className="mt-2 font-display text-xl font-medium leading-snug text-navy">{p.priceNote}</p>
-              </div>
+              <PriceBox p={p} agentPrice={agentPrice} />
               <div className="rounded-[1.6rem] border border-line bg-white p-7">
                 <p className="label-mono text-muted">Typically includes</p>
                 <ul className="mt-4 space-y-3 text-sm">
@@ -114,6 +121,10 @@ export default function PackageDetail() {
           </aside>
         </div>
       </section>
+
+      <Reviews slug={p.slug} />
+
+      <BookingPanel p={p} agentPrice={agentPrice} />
 
       <PlanJourney
         defaultService={p.theme === 'corporate' ? 'corporate' : 'custom-package'}

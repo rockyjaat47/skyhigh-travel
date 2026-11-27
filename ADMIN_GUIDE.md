@@ -13,6 +13,10 @@ Jo bhi aap **Save** karoge, woh website par turant live ho jaata hai.
 | Menu | Kya kar sakte ho |
 | --- | --- |
 | **Overview** | Nayi enquiries, pichle 7 din, kaunsi service ki demand zyada hai |
+| **Bookings** | Customers ki booking requests — call/WhatsApp karo, final price daalo, status **Confirmed** karo |
+| **Customers & agents** | Sign up kiye customers ki list; travel agents ki application **Approve / Reject** |
+| **Reviews** | Customer reviews — **Approve** karoge tabhi website par dikhega |
+| **Agent rates** | Har package ka B2B (agent) price — sirf approved agents ko dikhta hai |
 | **Enquiries** | Customer enquiries dekhna, status badalna (New → Contacted → Quoted → Closed), notes likhna, WhatsApp/email se reply, Excel (CSV) download |
 | **Pages & text** | Home page, About, Mission/Vision, Values, FAQ, Privacy/Terms — har heading, paragraph aur photo |
 | **Destinations** | Nayi jagah add karna, photo/description/highlights badalna, hide/show karna |
@@ -31,7 +35,18 @@ Jo bhi aap **Save** karoge, woh website par turant live ho jaata hai.
 **Nayi destination add karna** → Destinations → **Add destination** → naam, country, overview likho →
 "Main photo" mein **Choose photo** → upload ya list se chuno → "Live on website" ON → **Create**.
 
-**Package ka price dikhana** → Packages → Edit → "Price text" mein likho, jaise `From ₹24,999 per person` → Save.
+**Package ka price lagana** → Packages → Edit → "Price per person (₹)" mein sirf number, jaise `24999` → Save.
+Price nahi daaloge to "Price on request" dikhega. Price daalne se budget filter, sorting aur booking estimate chalu ho jaate hain.
+
+**Offer lagana** → usi package mein "Old price (₹)" mein purana price (jaise `29999`) → card par "17% off" aur kata hua price dikhega.
+"Offer label" (jaise `Winter special`) bhi daal sakte ho. Offer wale packages "Offers" filter mein aa jaate hain.
+
+**Booking confirm karna** → Bookings → booking par click → Call / WhatsApp se baat karo → "Final price per person" daalo → Status **Confirmed**.
+Customer ko apne account mein status dikh jaata hai. Confirmed booking wala customer us package ka review likh sakta hai.
+
+**Travel agent approve karna** → Customers & agents → "Agent applications" → Approve. Phir **Agent rates** mein har package ka agent price daalo.
+
+**Pehli baar zaroor karo** → Destinations, Packages, Services mein **Import starter content** — tabhi prices aur edits save honge.
 
 **Koi cheez temporarily hatana** → us card par 👁 (eye) button — hide ho jayegi, delete nahi hogi.
 
@@ -39,6 +54,7 @@ Jo bhi aap **Save** karoge, woh website par turant live ho jaata hai.
 
 ## Dhyan rakhein
 
+- Website par payment nahi hota — booking sirf request hai. Payment UPI/bank se lo aur tabhi Confirmed karo.
 - Customer ka passport ya card number kabhi website par na maangein.
 - Privacy Policy aur Terms abhi **draft** hain — lawyer se check karwa ke hi "draft notice" band karein.
 - Delete karne ke bajaye **Hide** karna safe hai — galti ho to wapas la sakte ho.

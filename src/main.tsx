@@ -8,6 +8,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { ContentProvider } from './hooks/useContent'
+import { CustomerProvider } from './hooks/useCustomer'
 import { initAnalytics } from './services/analytics'
 
 initAnalytics()
@@ -16,7 +17,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
       <ContentProvider>
-        <App />
+        <CustomerProvider>
+          <App />
+        </CustomerProvider>
       </ContentProvider>
     </BrowserRouter>
   </StrictMode>,

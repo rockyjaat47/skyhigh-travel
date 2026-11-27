@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowUpRight, ChevronDown, Menu, X } from 'lucide-react'
+import { ArrowUpRight, ChevronDown, Menu, UserRound, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { mainNav } from '../../config/site'
 import { useContent } from '../../hooks/useContent'
+import { useCustomer } from '../../hooks/useCustomer'
 import { track } from '../../services/analytics'
 import { cn } from '../../utils/cn'
 import { Artwork } from '../ui/Artwork'
@@ -18,6 +19,9 @@ const EASE = [0.16, 1, 0.3, 1] as const
 export function Header() {
   const { pathname } = useLocation()
   const { services } = useContent()
+  const customer = useCustomer()
+  const signedIn = customer.status === 'signed-in'
+  const firstName = customer.profile?.full_name?.split(' ')[0] || 'Account'
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [mega, setMega] = useState(false)
@@ -132,6 +136,19 @@ export function Header() {
               </nav>
 
               <div className="flex items-center gap-2">
+                {customer.enabled && (
+                  <Link
+                    to={signedIn ? '/account' : '/login'}
+                    aria-label={signedIn ? 'My account' : 'Sign in or create an account'}
+                    className={cn(
+                      'flex h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold transition-colors',
+                      dark ? 'text-white hover:bg-white/10' : 'text-navy hover:bg-navy/5',
+                    )}
+                  >
+                    <UserRound className="h-5 w-5" />
+                    <span className="hidden max-w-[7rem] truncate xl:inline">{signedIn ? firstName : 'Login'}</span>
+                  </Link>
+                )}
                 <span className="hidden sm:block">
                   <Button to="/contact#plan" size="md" onClick={() => track('cta_click', { cta: 'nav_plan_journey' })}>
                     Plan your journey
@@ -272,6 +289,11 @@ export function Header() {
                 <Button to="/contact#plan" size="lg" className="mt-8 w-full">
                   Plan your journey
                 </Button>
+                {customer.enabled && (
+                  <Link to={signedIn ? '/account' : '/login'} className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/20 font-semibold">
+                    <UserRound className="h-5 w-5" /> {signedIn ? 'My account' : 'Login / Sign up'}
+                  </Link>
+                )}
               </motion.div>
             </nav>
           </motion.div>

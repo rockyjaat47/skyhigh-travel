@@ -1,5 +1,6 @@
 import { ArrowUpRight, Clock } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { discountPercent, formatINR, hasPrice, nightsDays } from '../../utils/price'
 import type { Destination, TravelPackage } from '../../types/content'
 import { cn } from '../../utils/cn'
 import { Artwork } from './Artwork'
@@ -40,20 +41,35 @@ export function PackageCard({ p, destinationNames }: { p: TravelPackage; destina
           <Artwork art={p.art} seed={p.slug} sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw" />
         </div>
         <div className="absolute left-4 top-4 flex gap-2">
-          <StatusTag tone="light">{p.theme}</StatusTag>
+          <StatusTag tone="light">{p.theme.replace('-', ' ')}</StatusTag>
           {p.illustrative && <StatusTag tone="light">Sample itinerary</StatusTag>}
         </div>
+        {(discountPercent(p) > 0 || p.offerLabel) && (
+          <span className="label-mono absolute right-4 top-4 rounded-full bg-orange px-2.5 py-1 !text-[0.6rem] text-white">{discountPercent(p) > 0 ? `${discountPercent(p)}% off` : p.offerLabel}</span>
+        )}
       </div>
       <div className="flex flex-1 flex-col p-6">
         <p className="label-mono text-muted">{destinationNames}</p>
         <h3 className="mt-2 text-2xl font-medium leading-tight tracking-tight text-navy">{p.title}</h3>
         <p className="mt-3 line-clamp-2 text-sm text-muted">{p.summary}</p>
-        <div className="mt-auto flex items-center justify-between pt-6">
-          <span className="label-mono flex items-center gap-2 text-navy">
-            <Clock className="h-3.5 w-3.5" /> {p.durationDays} days
+        <div className="mt-auto flex items-end justify-between gap-3 pt-6">
+          <span>
+            <span className="label-mono flex items-center gap-2 text-navy">
+              <Clock className="h-3.5 w-3.5" /> {nightsDays(p.durationDays)}
+            </span>
+            {hasPrice(p) ? (
+              <span className="mt-2 block">
+                <span className="text-xs text-muted">From </span>
+                <span className="font-display text-xl font-medium text-navy">{formatINR(p.pricePerPerson!)}</span>
+                {discountPercent(p) > 0 && <s className="ml-2 text-sm text-muted">{formatINR(p.originalPrice!)}</s>}
+                <span className="text-xs text-muted"> / person</span>
+              </span>
+            ) : (
+              <span className="mt-2 block text-sm text-muted">Price on request</span>
+            )}
           </span>
           <span className="label-mono flex items-center gap-1 text-navy transition-colors group-hover:text-orange">
-            View <ArrowUpRight className="h-3.5 w-3.5" />
+            Book <ArrowUpRight className="h-3.5 w-3.5" />
           </span>
         </div>
       </div>

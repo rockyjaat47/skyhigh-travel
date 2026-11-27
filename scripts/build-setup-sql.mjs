@@ -10,7 +10,7 @@ writeFileSync(
 --
 --  1. Change the email on the LAST LINE to the owner's email address.
 --  2. Supabase dashboard → SQL Editor → New query → paste this whole file → Run.
---  3. Sign in at <your-site>/admin with "Email me a sign-in link".
+--  3. Authentication → Users → Add user (that email + a password, Auto Confirm), then sign in at <your-site>/admin.
 --
 --  Safe to run again after updates.
 -- ════════════════════════════════════════════════════════════════════

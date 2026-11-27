@@ -1,4 +1,4 @@
-import { AlertTriangle, BarChart3, Database, FileText, Globe2, ImageIcon, Inbox, Eye, EyeOff, KeyRound, LogOut, Map, Menu, Package, Settings, ShieldCheck, X } from 'lucide-react'
+import { AlertTriangle, BadgePercent, BarChart3, CalendarCheck, Star, UserRound, Database, FileText, Globe2, ImageIcon, Inbox, Eye, EyeOff, KeyRound, LogOut, Map, Menu, Package, Settings, ShieldCheck, X } from 'lucide-react'
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { LogoMark } from '../../components/ui/Logo'
@@ -6,10 +6,14 @@ import { Seo } from '../../components/ui/Seo'
 import { hasSupabase } from '../../config/env'
 import { getAdminApi, type AdminApi, type Role } from '../../services/adminApi'
 import { cn } from '../../utils/cn'
+import { AgentRates } from './AgentRates'
+import { Bookings } from './Bookings'
 import { ContentManager } from './ContentManager'
+import { Customers } from './Customers'
 import { Dashboard } from './Dashboard'
 import { Enquiries } from './Enquiries'
 import { MediaLibrary } from './MediaLibrary'
+import { ReviewsAdmin } from './ReviewsAdmin'
 import { SettingsEditor } from './SettingsEditor'
 
 const ApiCtx = createContext<AdminApi | null>(null)
@@ -25,7 +29,11 @@ type State = { status: 'loading' } | { status: 'signed-out' } | { status: 'denie
 
 const NAV = [
   { to: '/admin', label: 'Overview', icon: BarChart3, end: true },
+  { to: '/admin/bookings', label: 'Bookings', icon: CalendarCheck },
   { to: '/admin/enquiries', label: 'Enquiries', icon: Inbox },
+  { to: '/admin/customers', label: 'Customers & agents', icon: UserRound },
+  { to: '/admin/reviews', label: 'Reviews', icon: Star },
+  { to: '/admin/agent-rates', label: 'Agent rates', icon: BadgePercent },
   { heading: 'Website' },
   { to: '/admin/content', label: 'Pages & text', icon: FileText },
   { to: '/admin/destinations', label: 'Destinations', icon: Map },
@@ -320,6 +328,10 @@ export default function AdminApp() {
           <Routes>
             <Route index element={<Dashboard />} />
             <Route path="enquiries" element={<Enquiries />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="reviews" element={<ReviewsAdmin />} />
+            <Route path="agent-rates" element={<AgentRates />} />
             <Route path="content" element={<SettingsEditor group="content" />} />
             <Route path="content/:key" element={<SettingsEditor group="content" />} />
             <Route path="destinations" element={<ContentManager table="destinations" />} />

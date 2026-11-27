@@ -12,6 +12,9 @@ const DestinationDetail = lazy(() => import('./pages/DestinationDetail'))
 const Packages = lazy(() => import('./pages/Packages'))
 const PackageDetail = lazy(() => import('./pages/PackageDetail'))
 const Contact = lazy(() => import('./pages/Contact'))
+const Login = lazy(() => import('./pages/Login'))
+const Account = lazy(() => import('./pages/Account'))
+const Agents = lazy(() => import('./pages/Agents'))
 const Legal = lazy(() => import('./pages/Legal'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const AdminApp = lazy(() => import('./pages/admin/AdminApp'))
@@ -36,6 +39,11 @@ export default function App() {
         <Route path="destinations/:slug" element={<DestinationDetail />} />
         <Route path="packages" element={<Packages />} />
         <Route path="packages/:slug" element={<PackageDetail />} />
+        <Route path="tours/:category" element={<Packages />} />
+        <Route path="offers" element={<Navigate to="/packages?offers=1" replace />} />
+        <Route path="login" element={<Login />} />
+        <Route path="account" element={<Account />} />
+        <Route path="agents" element={<Agents />} />
         <Route path="contact" element={<Contact />} />
         <Route path="privacy-policy" element={<Legal kind="privacy" />} />
         <Route path="terms-and-conditions" element={<Legal kind="terms" />} />

@@ -2,6 +2,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { EnquiryRow } from '../../services/adminApi'
+import { adminCommerce } from '../../services/customer'
 import { enquiryServices } from '../../services/enquirySchema'
 import type { EnquiryStatus } from '../../types/content'
 import { useAdminApi } from './AdminApp'
@@ -13,6 +14,14 @@ export function Dashboard() {
   const [counts, setCounts] = useState<Record<string, number>>({})
   const [error, setError] = useState('')
   const [now] = useState(() => Date.now())
+  const [shop, setShop] = useState<{ bookings: number; agents: number; reviews: number } | null>(null)
+
+  useEffect(() => {
+    if (api.mode === 'preview') return
+    Promise.all([adminCommerce.bookings('pending'), adminCommerce.customers(), adminCommerce.reviews('pending')])
+      .then(([b, c, r]) => setShop({ bookings: b.length, agents: c.filter((x) => x.agent_status === 'pending').length, reviews: r.length }))
+      .catch(() => setShop(null))
+  }, [api])
 
   useEffect(() => {
     Promise.all([api.listEnquiries(), api.listContent('destinations'), api.listContent('packages'), api.listContent('services')])
@@ -30,8 +39,26 @@ export function Dashboard() {
 
   return (
     <>
-      <PageTitle title="Overview" sub="Enquiries and content at a glance." />
+      <PageTitle title="Overview" sub="Bookings, enquiries and content at a glance." />
       {error && <Notice kind="error">{error}</Notice>}
+      {shop && (
+        <div className="mb-4 grid gap-4 sm:grid-cols-3">
+          {(
+            [
+              ['Bookings to confirm', shop.bookings, '/admin/bookings'],
+              ['Agent applications', shop.agents, '/admin/customers'],
+              ['Reviews to approve', shop.reviews, '/admin/reviews'],
+            ] as const
+          ).map(([label, value, to]) => (
+            <Link key={label} to={to} className="group">
+              <Panel className={value ? 'border-orange/50 bg-orange/5 p-6 transition-colors group-hover:border-orange' : 'p-6 transition-colors group-hover:border-navy'}>
+                <p className="label-mono text-muted">{label}</p>
+                <p className="mt-4 font-display text-5xl font-medium tracking-tight text-navy">{value}</p>
+              </Panel>
+            </Link>
+          ))}
+        </div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {[
           ['New enquiries', byStatus('new'), '/admin/enquiries'],

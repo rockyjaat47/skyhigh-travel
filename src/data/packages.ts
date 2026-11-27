@@ -11,8 +11,34 @@ export const packageThemes: { id: PackageTheme | 'all'; label: string }[] = [
   { id: 'adventure', label: 'Adventure' },
   { id: 'spiritual', label: 'Spiritual' },
   { id: 'leisure', label: 'Leisure' },
+  { id: 'beach', label: 'Beach' },
+  { id: 'hill-station', label: 'Hill station' },
+  { id: 'heritage', label: 'Heritage' },
+  { id: 'international', label: 'International' },
   { id: 'corporate', label: 'Corporate' },
 ]
+
+/** SEO landing pages: /tours/<slug> → packages of that theme. */
+export const tourCategories: { slug: string; theme: PackageTheme; title: string; intro: string }[] = [
+  { slug: 'family-tours', theme: 'family', title: 'Family tour packages', intro: 'Comfortable, well-paced holidays that work for every age in the family.' },
+  { slug: 'honeymoon-tours', theme: 'honeymoon', title: 'Honeymoon packages', intro: 'Private stays, scenic escapes and unhurried days for two.' },
+  { slug: 'adventure-tours', theme: 'adventure', title: 'Adventure tour packages', intro: 'High passes, rivers and trails — with safety and acclimatisation built in.' },
+  { slug: 'pilgrimage-tours', theme: 'spiritual', title: 'Pilgrimage & spiritual tours', intro: 'Sacred journeys planned with care, comfort and time for darshan.' },
+  { slug: 'beach-holidays', theme: 'beach', title: 'Beach holiday packages', intro: 'Sun, sand and sea — easy coastal breaks in India and abroad.' },
+  { slug: 'hill-station-tours', theme: 'hill-station', title: 'Hill station tour packages', intro: 'Cool air, green valleys and mountain views.' },
+  { slug: 'heritage-tours', theme: 'heritage', title: 'Heritage tour packages', intro: 'Forts, palaces, temples and old cities, with local stories.' },
+  { slug: 'international-tours', theme: 'international', title: 'International tour packages', intro: 'Holidays abroad with visas, flights and stays coordinated for you.' },
+  { slug: 'leisure-holidays', theme: 'leisure', title: 'Leisure holiday packages', intro: 'Relaxed breaks to slow down and unwind.' },
+  { slug: 'corporate-offsites', theme: 'corporate', title: 'Corporate offsites & group tours', intro: 'Team travel, offsites and incentive trips, managed end to end.' },
+]
+
+export const priceFilters = [
+  { id: 'any', label: 'Any budget', min: 0, max: Infinity },
+  { id: 'u20', label: 'Under ₹20,000', min: 0, max: 19999 },
+  { id: '20-40', label: '₹20,000 – ₹40,000', min: 20000, max: 40000 },
+  { id: '40-75', label: '₹40,000 – ₹75,000', min: 40001, max: 75000 },
+  { id: 'o75', label: 'Above ₹75,000', min: 75001, max: Infinity },
+] as const
 
 export const durationFilters = [
   { id: 'any', label: 'Any length', min: 0, max: 99 },
